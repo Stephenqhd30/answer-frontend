@@ -1,15 +1,15 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { message, Modal } from 'antd';
+import {Drawer, message, Modal} from 'antd';
 import React from 'react';
-import { updateUserUsingPost } from '@/services/stephen-backend/userController';
+import {updateQuestionUsingPost} from '@/services/stephen-backend/questionController';
 
 interface UpdateProps {
-  oldData?: API.User;
+  oldData?: API.Question;
   onCancel: () => void;
-  onSubmit: (values: API.UserUpdateRequest) => Promise<void>;
+  onSubmit: (values: API.QuestionUpdateRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.User>[];
+  columns: ProColumns<API.Question>[];
 }
 
 /**
@@ -17,10 +17,10 @@ interface UpdateProps {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.UserUpdateRequest) => {
+const handleUpdate = async (fields: API.QuestionUpdateRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await updateUserUsingPost(fields);
+    await updateQuestionUsingPost(fields);
     hide();
     message.success('更新成功');
     return true;
@@ -30,19 +30,19 @@ const handleUpdate = async (fields: API.UserUpdateRequest) => {
     return false;
   }
 };
-const UpdateUserModal: React.FC<UpdateProps> = (props) => {
+const UpdateQuestionDrawer: React.FC<UpdateProps> = (props) => {
   const { oldData, visible, onSubmit, onCancel, columns } = props;
   if (!oldData) {
     return <></>;
   }
 
   return (
-    <Modal
+    <Drawer
       destroyOnClose
       title={'更新用户信息'}
       open={visible}
-      footer={null}
-      onCancel={() => {
+      width={640}
+      onClose={() => {
         onCancel?.();
       }}
     >
@@ -52,7 +52,7 @@ const UpdateUserModal: React.FC<UpdateProps> = (props) => {
           initialValues: oldData,
         }}
         columns={columns}
-        onSubmit={async (values: API.UserUpdateRequest) => {
+        onSubmit={async (values: API.QuestionUpdateRequest) => {
           const success = await handleUpdate({
             ...values,
             id: oldData?.id,
@@ -62,7 +62,7 @@ const UpdateUserModal: React.FC<UpdateProps> = (props) => {
           }
         }}
       />
-    </Modal>
+    </Drawer>
   );
 };
-export default UpdateUserModal;
+export default UpdateQuestionDrawer;

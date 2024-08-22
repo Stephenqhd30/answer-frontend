@@ -1,14 +1,14 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { message, Modal } from 'antd';
+import { Drawer, message } from 'antd';
 import React from 'react';
-import { addUserUsingPost } from '@/services/stephen-backend/userController';
+import { addAppUsingPost } from '@/services/stephen-backend/appController';
 
 interface CreateProps {
   onCancel: () => void;
-  onSubmit: (values: API.UserAddRequest) => Promise<void>;
+  onSubmit: (values: API.AppAddRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.User>[];
+  columns: ProColumns<API.App>[];
 }
 
 /**
@@ -16,10 +16,10 @@ interface CreateProps {
  *
  * @param fields
  */
-const handleAdd = async (fields: API.UserAddRequest) => {
+const handleAdd = async (fields: API.AppAddRequest) => {
   const hide = message.loading('正在添加');
   try {
-    await addUserUsingPost({
+    await addAppUsingPost({
       ...fields,
     });
     hide();
@@ -37,21 +37,21 @@ const handleAdd = async (fields: API.UserAddRequest) => {
  * @param props
  * @constructor
  */
-const CreateUserModal: React.FC<CreateProps> = (props) => {
+const CreateAppDrawer: React.FC<CreateProps> = (props) => {
   const { visible, onSubmit, onCancel, columns } = props;
   return (
-    <Modal
+    <Drawer
       destroyOnClose
-      title={'创建用户'}
+      title={'创建应用'}
       open={visible}
-      footer={null}
-      onCancel={() => {
+      width={640}
+      onClose={() => {
         onCancel?.();
       }}
     >
       <ProTable
         columns={columns}
-        onSubmit={async (values: API.UserAddRequest) => {
+        onSubmit={async (values: API.AppAddRequest) => {
           const success = await handleAdd(values);
           if (success) {
             onSubmit?.(values);
@@ -59,7 +59,7 @@ const CreateUserModal: React.FC<CreateProps> = (props) => {
         }}
         type={'form'}
       />
-    </Modal>
+    </Drawer>
   );
 };
-export default CreateUserModal;
+export default CreateAppDrawer;

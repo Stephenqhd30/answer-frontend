@@ -1,15 +1,14 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { message, Modal } from 'antd';
+import {Drawer, message, Modal} from 'antd';
 import React from 'react';
-import {updateScoringResultUsingPost} from '@/services/stephen-backend/scoringResultController';
-
+import { updateAppUsingPost } from '@/services/stephen-backend/appController';
 interface UpdateProps {
-  oldData?: API.ScoringResult;
+  oldData?: API.App;
   onCancel: () => void;
-  onSubmit: (values: API.ScoringResultUpdateRequest) => Promise<void>;
+  onSubmit: (values: API.AppUpdateRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.ScoringResult>[];
+  columns: ProColumns<API.App>[];
 }
 
 /**
@@ -17,10 +16,10 @@ interface UpdateProps {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.ScoringResultUpdateRequest) => {
+const handleUpdate = async (fields: API.AppUpdateRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await updateScoringResultUsingPost(fields);
+    await updateAppUsingPost(fields);
     hide();
     message.success('更新成功');
     return true;
@@ -30,19 +29,19 @@ const handleUpdate = async (fields: API.ScoringResultUpdateRequest) => {
     return false;
   }
 };
-const UpdateScoringResultModal: React.FC<UpdateProps> = (props) => {
+const UpdateAppDrawer: React.FC<UpdateProps> = (props) => {
   const { oldData, visible, onSubmit, onCancel, columns } = props;
   if (!oldData) {
     return <></>;
   }
 
   return (
-    <Modal
+    <Drawer
       destroyOnClose
-      title={'更新评分结果'}
+      title={'更新应用信息'}
       open={visible}
-      footer={null}
-      onCancel={() => {
+      width={640}
+      onClose={() => {
         onCancel?.();
       }}
     >
@@ -52,7 +51,7 @@ const UpdateScoringResultModal: React.FC<UpdateProps> = (props) => {
           initialValues: oldData,
         }}
         columns={columns}
-        onSubmit={async (values: API.ScoringResultUpdateRequest) => {
+        onSubmit={async (values: API.AppUpdateRequest) => {
           const success = await handleUpdate({
             ...values,
             id: oldData?.id,
@@ -62,7 +61,7 @@ const UpdateScoringResultModal: React.FC<UpdateProps> = (props) => {
           }
         }}
       />
-    </Modal>
+    </Drawer>
   );
 };
-export default UpdateScoringResultModal;
+export default UpdateAppDrawer;

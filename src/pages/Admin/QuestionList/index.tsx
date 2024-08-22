@@ -3,9 +3,9 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateQuestionModal from './components/UpdateQuestionModal';
+import UpdateQuestionDrawer from './components/UpdateQuestionDrawer';
 
-import CreateQuestionModal from '@/pages/Admin/QuestionList/components/CreateQuestionModal';
+import CreateQuestionDrawer from '@/pages/Admin/QuestionList/components/CreateQuestionDrawer';
 import {
   deleteQuestionUsingPost,
   listQuestionByPageUsingPost,
@@ -36,10 +36,10 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * @constructor
  */
 const QuestionList: React.FC = () => {
-  // 新建窗口的Modal框
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 更新窗口的Modal框
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  // 新建窗口的Drawer框
+  const [createDrawerVisible, setCreateDrawerVisible] = useState<boolean>(false);
+  // 更新窗口的Drawer框
+  const [updateDrawerVisible, setUpdateDrawerVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.Question>();
@@ -52,33 +52,22 @@ const QuestionList: React.FC = () => {
       dataIndex: 'id',
       valueType: 'text',
       hideInForm: true,
-      copyable: true,
     },
     {
       title: '创建人Id',
       dataIndex: 'userId',
       valueType: 'text',
       hideInForm: true,
-      copyable: true,
     },
     {
       title: '应用Id',
       dataIndex: 'appId',
       valueType: 'text',
       hideInForm: true,
-      copyable: true,
     },
     {
       title: '题目列表',
       dataIndex: 'questionContent',
-      valueType: 'formList',
-      render: (_, record) => (
-        <div>
-          {JSON.parse(record.questionContent as any).forEach((question: any) => (
-            <div key={question.title}>{question}</div>
-          ))}
-        </div>
-      ),
     },
     {
       title: '创建时间',
@@ -105,7 +94,7 @@ const QuestionList: React.FC = () => {
           <Typography.Link
             key="update"
             onClick={() => {
-              setUpdateModalVisible(true);
+              setUpdateDrawerVisible(true);
               setCurrentRow(record);
               actionRef.current?.reload();
             }}
@@ -142,7 +131,7 @@ const QuestionList: React.FC = () => {
       <ProTable<API.Question, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey={'key'}
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -151,7 +140,7 @@ const QuestionList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateDrawerVisible(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -176,32 +165,32 @@ const QuestionList: React.FC = () => {
         columns={columns}
       />
 
-      {/*新建表单的Modal框*/}
-      {createModalVisible && (
-        <CreateQuestionModal
+      {/*新建表单的Drawer框*/}
+      {createDrawerVisible && (
+        <CreateQuestionDrawer
           onCancel={() => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
             actionRef.current?.reload();
           }}
-          visible={createModalVisible}
+          visible={createDrawerVisible}
           columns={columns}
         />
       )}
-      {/*更新表单的Modal框*/}
-      {updateModalVisible && (
-        <UpdateQuestionModal
+      {/*更新表单的Drawer框*/}
+      {updateDrawerVisible && (
+        <UpdateQuestionDrawer
           onCancel={() => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
             setCurrentRow(undefined);
             actionRef.current?.reload();
           }}
-          visible={updateModalVisible}
+          visible={updateDrawerVisible}
           columns={columns}
           oldData={currentRow}
         />

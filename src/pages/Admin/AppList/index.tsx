@@ -3,12 +3,12 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateAppModal from './components/UpdateAppModal';
+import UpdateAppDrawer from './components/UpdateAppDrawer';
 import {
   deleteAppUsingPost,
   listAppByPageUsingPost,
 } from '@/services/stephen-backend/appController';
-import CreateAppModal from '@/pages/Admin/AppList/components/CreateAppModal';
+import CreateAppDrawer from '@/pages/Admin/AppList/components/CreateAppDrawer';
 import { reviewStatusList, reviewTagColor } from '@/enum/ReviewStatusEnum';
 
 /**
@@ -36,10 +36,10 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * @constructor
  */
 const UserList: React.FC = () => {
-  // 新建窗口的Modal框
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 更新窗口的Modal框
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  // 新建窗口的Drawer框
+  const [createDrawerVisible, setCreateDrawerVisible] = useState<boolean>(false);
+  // 更新窗口的Drawer框
+  const [updateDrawerVisible, setUpdateDrawerVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.App>();
@@ -170,7 +170,7 @@ const UserList: React.FC = () => {
           <Typography.Link
             key="update"
             onClick={() => {
-              setUpdateModalVisible(true);
+              setUpdateDrawerVisible(true);
               setCurrentRow(record);
               actionRef.current?.reload();
             }}
@@ -216,7 +216,7 @@ const UserList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateDrawerVisible(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -241,32 +241,32 @@ const UserList: React.FC = () => {
         columns={columns}
       />
 
-      {/*新建表单的Modal框*/}
-      {createModalVisible && (
-        <CreateAppModal
+      {/*新建表单的Drawer框*/}
+      {createDrawerVisible && (
+        <CreateAppDrawer
           onCancel={() => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
             actionRef.current?.reload();
           }}
-          visible={createModalVisible}
+          visible={createDrawerVisible}
           columns={columns}
         />
       )}
-      {/*更新表单的Modal框*/}
-      {updateModalVisible && (
-        <UpdateAppModal
+      {/*更新表单的Drawer框*/}
+      {updateDrawerVisible && (
+        <UpdateAppDrawer
           onCancel={() => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
             setCurrentRow(undefined);
             actionRef.current?.reload();
           }}
-          visible={updateModalVisible}
+          visible={updateDrawerVisible}
           columns={columns}
           oldData={currentRow}
         />

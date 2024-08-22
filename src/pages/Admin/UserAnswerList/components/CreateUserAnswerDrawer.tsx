@@ -1,14 +1,14 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { message, Modal } from 'antd';
+import { Drawer, message } from 'antd';
 import React from 'react';
-import {addScoringResultUsingPost} from '@/services/stephen-backend/scoringResultController';
+import { addUserAnswerUsingPost } from '@/services/stephen-backend/userAnswerController';
 
 interface CreateProps {
   onCancel: () => void;
-  onSubmit: (values: API.ScoringResultAddRequest) => Promise<void>;
+  onSubmit: (values: API.UserAnswerAddRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.ScoringResult>[];
+  columns: ProColumns<API.UserAnswer>[];
 }
 
 /**
@@ -16,10 +16,10 @@ interface CreateProps {
  *
  * @param fields
  */
-const handleAdd = async (fields: API.ScoringResultAddRequest) => {
+const handleAdd = async (fields: API.UserAnswerAddRequest) => {
   const hide = message.loading('正在添加');
   try {
-    await addScoringResultUsingPost({
+    await addUserAnswerUsingPost({
       ...fields,
     });
     hide();
@@ -37,21 +37,21 @@ const handleAdd = async (fields: API.ScoringResultAddRequest) => {
  * @param props
  * @constructor
  */
-const CreateScoringResultModal: React.FC<CreateProps> = (props) => {
+const CreateUserAnswerDrawer: React.FC<CreateProps> = (props) => {
   const { visible, onSubmit, onCancel, columns } = props;
   return (
-    <Modal
+    <Drawer
       destroyOnClose
-      title={'创建评分结果'}
+      title={'创建用户回答'}
       open={visible}
-      footer={null}
-      onCancel={() => {
+      width={640}
+      onClose={() => {
         onCancel?.();
       }}
     >
       <ProTable
         columns={columns}
-        onSubmit={async (values: API.ScoringResultAddRequest) => {
+        onSubmit={async (values: API.UserAnswerAddRequest) => {
           const success = await handleAdd(values);
           if (success) {
             onSubmit?.(values);
@@ -59,7 +59,7 @@ const CreateScoringResultModal: React.FC<CreateProps> = (props) => {
         }}
         type={'form'}
       />
-    </Modal>
+    </Drawer>
   );
 };
-export default CreateScoringResultModal;
+export default CreateUserAnswerDrawer;

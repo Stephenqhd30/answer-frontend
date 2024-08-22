@@ -3,12 +3,12 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateScoringResultModal from './components/UpdateScoringResultModal';
+import UpdateScoringResultDrawer from './components/UpdateScoringResultDrawer';
 import {
   deleteScoringResultUsingPost,
   listScoringResultByPageUsingPost,
 } from '@/services/stephen-backend/scoringResultController';
-import CreateScoringResultModal from '@/pages/Admin/ScoringResultList/components/CreateScoringResultModal';
+import CreateScoringResultDrawer from '@/pages/Admin/ScoringResultList/components/CreateScoringResultDrawer';
 
 /**
  * 删除节点
@@ -35,10 +35,10 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * @constructor
  */
 const ScoringResultList: React.FC = () => {
-  // 新建窗口的Modal框
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 更新窗口的Modal框
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  // 新建窗口的Drawer框
+  const [createDrawerVisible, setCreateDrawerVisible] = useState<boolean>(false);
+  // 更新窗口的Drawer框
+  const [updateDrawerVisible, setUpdateDrawerVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.ScoringResult>();
@@ -114,7 +114,7 @@ const ScoringResultList: React.FC = () => {
           <Typography.Link
             key="update"
             onClick={() => {
-              setUpdateModalVisible(true);
+              setUpdateDrawerVisible(true);
               setCurrentRow(record);
               actionRef.current?.reload();
             }}
@@ -160,7 +160,7 @@ const ScoringResultList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              setCreateDrawerVisible(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -185,32 +185,32 @@ const ScoringResultList: React.FC = () => {
         columns={columns}
       />
 
-      {/*新建表单的Modal框*/}
-      {createModalVisible && (
-        <CreateScoringResultModal
+      {/*新建表单的Drawer框*/}
+      {createDrawerVisible && (
+        <CreateScoringResultDrawer
           onCancel={() => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setCreateModalVisible(false);
+            setCreateDrawerVisible(false);
             actionRef.current?.reload();
           }}
-          visible={createModalVisible}
+          visible={createDrawerVisible}
           columns={columns}
         />
       )}
-      {/*更新表单的Modal框*/}
-      {updateModalVisible && (
-        <UpdateScoringResultModal
+      {/*更新表单的Drawer框*/}
+      {updateDrawerVisible && (
+        <UpdateScoringResultDrawer
           onCancel={() => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
           }}
           onSubmit={async () => {
-            setUpdateModalVisible(false);
+            setUpdateDrawerVisible(false);
             setCurrentRow(undefined);
             actionRef.current?.reload();
           }}
-          visible={updateModalVisible}
+          visible={updateDrawerVisible}
           columns={columns}
           oldData={currentRow}
         />

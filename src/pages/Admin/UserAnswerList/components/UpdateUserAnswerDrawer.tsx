@@ -1,14 +1,15 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { message, Modal } from 'antd';
+import {Drawer, message, Modal} from 'antd';
 import React from 'react';
-import { updateAppUsingPost } from '@/services/stephen-backend/appController';
+import { updateUserAnswerUsingPost } from '@/services/stephen-backend/userAnswerController';
+
 interface UpdateProps {
-  oldData?: API.App;
+  oldData?: API.UserAnswer;
   onCancel: () => void;
-  onSubmit: (values: API.AppUpdateRequest) => Promise<void>;
+  onSubmit: (values: API.UserAnswerUpdateRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.App>[];
+  columns: ProColumns<API.UserAnswer>[];
 }
 
 /**
@@ -16,10 +17,10 @@ interface UpdateProps {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.AppUpdateRequest) => {
+const handleUpdate = async (fields: API.UserAnswerUpdateRequest) => {
   const hide = message.loading('正在更新');
   try {
-    await updateAppUsingPost(fields);
+    await updateUserAnswerUsingPost(fields);
     hide();
     message.success('更新成功');
     return true;
@@ -29,19 +30,19 @@ const handleUpdate = async (fields: API.AppUpdateRequest) => {
     return false;
   }
 };
-const UpdateAppModal: React.FC<UpdateProps> = (props) => {
+const UpdateUserAnswerAnswerModal: React.FC<UpdateProps> = (props) => {
   const { oldData, visible, onSubmit, onCancel, columns } = props;
   if (!oldData) {
     return <></>;
   }
 
   return (
-    <Modal
+    <Drawer
       destroyOnClose
-      title={'更新应用信息'}
+      title={'更新用户回答'}
       open={visible}
-      footer={null}
-      onCancel={() => {
+      width={640}
+      onClose={() => {
         onCancel?.();
       }}
     >
@@ -51,7 +52,7 @@ const UpdateAppModal: React.FC<UpdateProps> = (props) => {
           initialValues: oldData,
         }}
         columns={columns}
-        onSubmit={async (values: API.AppUpdateRequest) => {
+        onSubmit={async (values: API.UserAnswerUpdateRequest) => {
           const success = await handleUpdate({
             ...values,
             id: oldData?.id,
@@ -61,7 +62,7 @@ const UpdateAppModal: React.FC<UpdateProps> = (props) => {
           }
         }}
       />
-    </Modal>
+    </Drawer>
   );
 };
-export default UpdateAppModal;
+export default UpdateUserAnswerAnswerModal;
