@@ -1,15 +1,14 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
+import { Button, message, Popconfirm, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateUserModal from './components/UpdateUserModal';
+import UpdateScoringResultModal from './components/UpdateScoringResultModal';
 import {
-  deleteUserUsingPost,
-  listUserByPageUsingPost,
-} from '@/services/stephen-backend/userController';
-import CreateUserModal from '@/pages/Admin/UserList/components/CreateUserModal';
-import { userRoleList, userRoleTagColor } from '@/enum/UserRoleEnum';
+  deleteScoringResultUsingPost,
+  listScoringResultByPageUsingPost,
+} from '@/services/stephen-backend/scoringResultController';
+import CreateScoringResultModal from '@/pages/Admin/ScoringResultList/components/CreateScoringResultModal';
 
 /**
  * 删除节点
@@ -20,7 +19,7 @@ const handleDelete = async (row: API.DeleteRequest) => {
   const hide = message.loading('正在删除');
   if (!row) return true;
   try {
-    await deleteUserUsingPost({
+    await deleteScoringResultUsingPost({
       id: row.id,
     });
     hide();
@@ -35,19 +34,18 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * 用户管理列表
  * @constructor
  */
-const UserList: React.FC = () => {
+const ScoringResultList: React.FC = () => {
   // 新建窗口的Modal框
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   // 更新窗口的Modal框
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
-
+  const [currentRow, setCurrentRow] = useState<API.ScoringResult>();
   /**
    * 表格列数据
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.ScoringResult>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -55,58 +53,41 @@ const UserList: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '应用Id',
+      dataIndex: 'appId',
+      valueType: 'text',
+      hideInForm: true,
+    },
+    {
+      title: '结果名称',
+      dataIndex: 'resultName',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
+      title: '结果属性集合',
+      dataIndex: 'resultProp',
       valueType: 'text',
     },
     {
-      title: '头像',
-      dataIndex: 'userAvatar',
+      title: '结果图片',
+      dataIndex: 'resultPicture',
       valueType: 'image',
       fieldProps: {
         width: 64,
       },
       hideInSearch: true,
     },
+
     {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
-      title: '电话',
-      dataIndex: 'userPhone',
+      title: '结果得分范围',
+      dataIndex: 'resultScoreRange',
       valueType: 'text',
     },
     {
-      title: '邮箱',
-      dataIndex: 'userEmail',
+      title: '创建人Id',
+      dataIndex: 'userId',
       valueType: 'text',
-    },
-    {
-      title: '权限',
-      dataIndex: 'userRole',
-      valueEnum: {
-        admin: {
-          text: '管理员',
-        },
-        user: {
-          text: '普通用',
-        },
-      },
-      render: (_, record) => (
-        <Tag
-          bordered={false}
-          color={record.userRole === 'admin' ? userRoleTagColor[0] : userRoleTagColor[1]}
-        >
-          {userRoleList.find((item) => item.value === record.userRole)?.label}
-        </Tag>
-      ),
+      hideInForm: true,
     },
     {
       title: '创建时间',
@@ -167,7 +148,7 @@ const UserList: React.FC = () => {
   ];
   return (
     <>
-      <ProTable<API.User, API.PageParams>
+      <ProTable<API.ScoringResult, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey={'key'}
@@ -188,12 +169,12 @@ const UserList: React.FC = () => {
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listScoringResultByPageUsingPost({
             ...params,
             ...filter,
             sortField,
             sortOrder,
-          } as API.UserQueryRequest);
+          } as API.ScoringResultQueryRequest);
 
           return {
             success: code === 0,
@@ -206,7 +187,7 @@ const UserList: React.FC = () => {
 
       {/*新建表单的Modal框*/}
       {createModalVisible && (
-        <CreateUserModal
+        <CreateScoringResultModal
           onCancel={() => {
             setCreateModalVisible(false);
           }}
@@ -220,7 +201,7 @@ const UserList: React.FC = () => {
       )}
       {/*更新表单的Modal框*/}
       {updateModalVisible && (
-        <UpdateUserModal
+        <UpdateScoringResultModal
           onCancel={() => {
             setUpdateModalVisible(false);
           }}
@@ -237,4 +218,4 @@ const UserList: React.FC = () => {
     </>
   );
 };
-export default UserList;
+export default ScoringResultList;

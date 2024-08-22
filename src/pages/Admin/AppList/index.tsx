@@ -3,13 +3,13 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateUserModal from './components/UpdateUserModal';
+import UpdateAppModal from './components/UpdateAppModal';
 import {
-  deleteUserUsingPost,
-  listUserByPageUsingPost,
-} from '@/services/stephen-backend/userController';
-import CreateUserModal from '@/pages/Admin/UserList/components/CreateUserModal';
-import { userRoleList, userRoleTagColor } from '@/enum/UserRoleEnum';
+  deleteAppUsingPost,
+  listAppByPageUsingPost,
+} from '@/services/stephen-backend/appController';
+import CreateAppModal from '@/pages/Admin/AppList/components/CreateAppModal';
+import { reviewStatusList, reviewTagColor } from '@/enum/ReviewStatusEnum';
 
 /**
  * 删除节点
@@ -20,7 +20,7 @@ const handleDelete = async (row: API.DeleteRequest) => {
   const hide = message.loading('正在删除');
   if (!row) return true;
   try {
-    await deleteUserUsingPost({
+    await deleteAppUsingPost({
       id: row.id,
     });
     hide();
@@ -42,31 +42,32 @@ const UserList: React.FC = () => {
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  const [currentRow, setCurrentRow] = useState<API.App>();
 
   /**
    * 表格列数据
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.App>[] = [
     {
       title: 'id',
       dataIndex: 'id',
       valueType: 'text',
       hideInForm: true,
+      copyable: true,
     },
     {
-      title: '账号',
-      dataIndex: 'userAccount',
+      title: '应用名',
+      dataIndex: 'appName',
       valueType: 'text',
     },
     {
-      title: '用户名',
-      dataIndex: 'userName',
-      valueType: 'text',
+      title: '应用描述',
+      dataIndex: 'appDesc',
+      valueType: 'textarea',
     },
     {
-      title: '头像',
-      dataIndex: 'userAvatar',
+      title: '应用图标',
+      dataIndex: 'appIcon',
       valueType: 'image',
       fieldProps: {
         width: 64,
@@ -74,39 +75,75 @@ const UserList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
-      title: '电话',
-      dataIndex: 'userPhone',
-      valueType: 'text',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'userEmail',
-      valueType: 'text',
-    },
-    {
-      title: '权限',
-      dataIndex: 'userRole',
+      title: '应用类型',
+      dataIndex: 'appType',
       valueEnum: {
-        admin: {
-          text: '管理员',
+        0: {
+          text: '得分类应用',
         },
-        user: {
-          text: '普通用',
+        1: {
+          text: '测评类应用',
+        },
+      },
+    },
+    {
+      title: '审核状态',
+      dataIndex: 'reviewStatus',
+      valueEnum: {
+        0: {
+          text: '待审核',
+        },
+        1: {
+          text: '通过',
+        },
+        2: {
+          text: '拒绝',
         },
       },
       render: (_, record) => (
-        <Tag
-          bordered={false}
-          color={record.userRole === 'admin' ? userRoleTagColor[0] : userRoleTagColor[1]}
-        >
-          {userRoleList.find((item) => item.value === record.userRole)?.label}
+        <Tag bordered={false} color={reviewTagColor[record.reviewStatus as number]}>
+          {reviewStatusList.find((item) => item.value === record.reviewStatus)?.label}
         </Tag>
       ),
+    },
+    {
+      title: '审核信息',
+      dataIndex: 'reviewMessage',
+      valueType: 'text',
+    },
+    {
+      title: '审核人Id',
+      dataIndex: 'reviewerId',
+      valueType: 'text',
+      hideInForm: true,
+      copyable: true,
+    },
+    {
+      title: '创建用户Id',
+      dataIndex: 'userId',
+      valueType: 'text',
+      hideInForm: true,
+      copyable: true,
+    },
+    {
+      title: '评分策略',
+      dataIndex: 'scoringStrategy',
+      valueEnum: {
+        0: {
+          text: '自定义评分',
+        },
+        1: {
+          text: 'AI评分',
+        },
+      },
+    },
+    {
+      title: '审核时间',
+      sorter: true,
+      dataIndex: 'reviewTime',
+      valueType: 'dateTime',
+      hideInSearch: true,
+      hideInForm: true,
     },
     {
       title: '创建时间',
@@ -167,10 +204,10 @@ const UserList: React.FC = () => {
   ];
   return (
     <>
-      <ProTable<API.User, API.PageParams>
+      <ProTable<API.App, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey={'key'}
+        rowKey={'id'}
         search={{
           labelWidth: 120,
         }}
@@ -188,12 +225,12 @@ const UserList: React.FC = () => {
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
-          const { data, code } = await listUserByPageUsingPost({
+          const { data, code } = await listAppByPageUsingPost({
             ...params,
             ...filter,
             sortField,
             sortOrder,
-          } as API.UserQueryRequest);
+          } as API.AppQueryRequest);
 
           return {
             success: code === 0,
@@ -206,7 +243,7 @@ const UserList: React.FC = () => {
 
       {/*新建表单的Modal框*/}
       {createModalVisible && (
-        <CreateUserModal
+        <CreateAppModal
           onCancel={() => {
             setCreateModalVisible(false);
           }}
@@ -220,7 +257,7 @@ const UserList: React.FC = () => {
       )}
       {/*更新表单的Modal框*/}
       {updateModalVisible && (
-        <UpdateUserModal
+        <UpdateAppModal
           onCancel={() => {
             setUpdateModalVisible(false);
           }}

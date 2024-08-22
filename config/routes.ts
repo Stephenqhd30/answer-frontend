@@ -17,6 +17,10 @@ export default [
     routes: [
       { path: '/admin', redirect: '/admin/user' },
       { name: '用户管理', path: '/admin/user', component: './Admin/UserList' },
+      { name: '应用管理', path: '/admin/app', component: './Admin/AppList' },
+      { name: '题目管理', path: '/admin/question', component: './Admin/QuestionList' },
+      { name: '评分结果管理', path: '/admin/scoringResult', component: './Admin/ScoringResultList' },
+      { name: '用户回答管理', path: '/admin/userAnswer', component: './Admin/UserAnswerList' },
     ],
   },
   {
@@ -41,19 +45,16 @@ export default [
       },
       {
         name: '403',
-        icon: 'smile',
         path: '/exception/403',
         component: './Exception/403',
       },
       {
         name: '404',
-        icon: 'smile',
         path: '/exception/404',
         component: './Exception/404',
       },
       {
         name: '500',
-        icon: 'smile',
         path: '/exception/500',
         component: './Exception/500',
       },
