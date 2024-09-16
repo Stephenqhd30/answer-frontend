@@ -1,12 +1,14 @@
 import '@umijs/max';
 import React from 'react';
-import { useModel } from '@@/exports';
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 
-const UserDetailsCard: React.FC<API.User> = () => {
-  const { initialState } = useModel('@@initialState');
-  const currentUser = initialState?.currentUser;
+interface UserProps {
+  user: API.User;
+}
+
+const UserDetailsCard: React.FC<UserProps> = (props) => {
+  const { user } = props;
 
   return (
     <>
@@ -14,10 +16,10 @@ const UserDetailsCard: React.FC<API.User> = () => {
         <ProDescriptions<API.User>
           title={
             <>
-              <Typography.Title level={3}>{currentUser?.userName}</Typography.Title>
+              <Typography.Title level={3}>{user?.userName}</Typography.Title>
             </>
           }
-          dataSource={currentUser}
+          dataSource={user}
           emptyText={'该用户比较懒 还没有设置'}
           columns={[
             {

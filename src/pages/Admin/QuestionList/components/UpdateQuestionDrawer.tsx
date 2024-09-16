@@ -41,7 +41,7 @@ const UpdateQuestionDrawer: React.FC<UpdateProps> = (props) => {
       destroyOnClose
       title={'更新用户信息'}
       open={visible}
-      width={640}
+      width={520}
       onClose={() => {
         onCancel?.();
       }}
@@ -51,6 +51,7 @@ const UpdateQuestionDrawer: React.FC<UpdateProps> = (props) => {
         form={{
           initialValues: oldData,
         }}
+        rowKey={'id'}
         columns={columns}
         onSubmit={async (values: API.QuestionUpdateRequest) => {
           const success = await handleUpdate({

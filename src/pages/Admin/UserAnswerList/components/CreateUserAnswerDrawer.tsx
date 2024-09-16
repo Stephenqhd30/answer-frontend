@@ -44,13 +44,14 @@ const CreateUserAnswerDrawer: React.FC<CreateProps> = (props) => {
       destroyOnClose
       title={'创建用户回答'}
       open={visible}
-      width={640}
+      width={520}
       onClose={() => {
         onCancel?.();
       }}
     >
       <ProTable
         columns={columns}
+        rowKey={'id'}
         onSubmit={async (values: API.UserAnswerAddRequest) => {
           const success = await handleAdd(values);
           if (success) {

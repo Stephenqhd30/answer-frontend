@@ -7,22 +7,9 @@ export enum ReviewStatusEnum {
   REJECT = 2,
 }
 
-/**
- * 审核状态列表
- */
-export const reviewStatusList = [
-  {
-    label: '待审核',
-    value: 0,
-  },
-  {
-    label: '通过',
-    value: 1,
-  },
-  {
-    label: '拒绝',
-    value: 2,
-  },
-];
+export const reviewStatusEnum = {
+  0: { text: '待审核', color: 'warning' },
+  1: { text: '通过', color: 'success' },
+  2: { text: '拒绝', color: 'error' },
+};
 
-export const reviewTagColor = ['warning', 'success', 'error'];

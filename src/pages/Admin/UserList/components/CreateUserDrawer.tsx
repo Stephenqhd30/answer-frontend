@@ -42,13 +42,14 @@ const CreateUserDrawer: React.FC<CreateProps> = (props) => {
   return (
     <Drawer
       destroyOnClose
-      title={"新建用户"}
-      width={640}
+      title={'新建用户'}
+      width={520}
       onClose={() => onCancel?.()}
       open={visible}
     >
       <ProTable
         columns={columns}
+        rowKey={'id'}
         onSubmit={async (values: API.UserAddRequest) => {
           const success = await handleAdd(values);
           if (success) {

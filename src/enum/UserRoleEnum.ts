@@ -3,21 +3,17 @@ export enum UserRoleEnum {
   USER = 'user',
 }
 
+
 /**
  * 用户角色列表
  */
-export const userRoleList = [
-  {
-    label: '普通用户',
-    value: 'user',
+export const userRoleEnum = {
+  admin: {
+    text: '管理员',
+    color: 'processing',
   },
-  {
-    label: '管理员',
-    value: 'admin',
+  user: {
+    text: '用户',
+    color:'success',
   },
-];
-
-/**
- * 用户角色标签颜色列表
- */
-export const userRoleTagColor = ["processing", "success"]
+};

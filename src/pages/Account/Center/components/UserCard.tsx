@@ -1,49 +1,42 @@
 import '@umijs/max';
-import {Card, Image} from 'antd';
+import { Image } from 'antd';
 import React from 'react';
-import { useModel } from '@@/exports';
-import { ProCard } from '@ant-design/pro-components';
 import { IdcardOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
 
-const UserInfoCard: React.FC<API.User> = () => {
-  const { initialState } = useModel('@@initialState');
-  const currentUser = initialState?.currentUser;
+interface UserProps {
+  user: API.User;
+}
+
+const UserInfoCard: React.FC<UserProps> = (props) => {
+  const { user } = props;
 
   return (
     <>
-      <ProCard layout="center" direction="column">
-        <ProCard layout={'center'}>
-          <Card
-            style={{ maxWidth: 480 }}
-            cover={<Image alt={currentUser?.userName} src={currentUser?.userAvatar} />}
-          >
-            <p>
-              <IdcardOutlined
-                style={{
-                  marginRight: 16,
-                }}
-              />
-              {currentUser?.userName}
-            </p>
-            <p>
-              <SmileOutlined
-                style={{
-                  marginRight: 16,
-                }}
-              />
-              {currentUser?.userProfile}
-            </p>
-            <p>
-              <UserOutlined
-                style={{
-                  marginRight: 16,
-                }}
-              />
-              {currentUser?.userRole === 'admin' ? '管理员' : '普通用户'}
-            </p>
-          </Card>
-        </ProCard>
-      </ProCard>
+      <Image style={{ maxWidth: 420, marginBottom: 24 }} src={user?.userAvatar} />
+      <p>
+        <IdcardOutlined
+          style={{
+            marginRight: 8,
+          }}
+        />
+        {user?.userName}
+      </p>
+      <p>
+        <SmileOutlined
+          style={{
+            marginRight: 8,
+          }}
+        />
+        {user?.userProfile}
+      </p>
+      <p>
+        <UserOutlined
+          style={{
+            marginRight: 8,
+          }}
+        />
+        {user?.userRole === 'admin' ? '管理员' : '普通用户'}
+      </p>
     </>
   );
 };

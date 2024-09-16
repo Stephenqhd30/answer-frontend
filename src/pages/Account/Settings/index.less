@@ -1,0 +1,19 @@
+.proCard {
+  @media (max-width: 576px) {
+    .ant-pro-card {
+      padding: 8px;  // 移动端的内边距
+    }
+    .ant-pro-card-tabs {
+      width: 100%;  // 标签区域宽度自适应
+    }
+    .ant-tabs-left-bar, .ant-tabs-right-bar {
+      width: 100%;  // 标签导航栏的宽度
+    }
+  }
+
+  @media (min-width: 577px) {
+    .ant-pro-card {
+      padding: 24px;  // 桌面端的内边距
+    }
+  }
+}

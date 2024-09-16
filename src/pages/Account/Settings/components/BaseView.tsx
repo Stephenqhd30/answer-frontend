@@ -1,21 +1,21 @@
-import { useModel } from '@umijs/max';
-
-import { Avatar, message, UploadProps } from 'antd';
+import { Avatar, Col, message, Row, UploadProps } from 'antd';
 import React, { useState } from 'react';
 import { updateUserUsingPost } from '@/services/stephen-backend/userController';
 import {
   ProCard,
   ProForm,
   ProFormText,
-  ProFormTextArea,
-  ProFormUploadButton
+  ProFormTextArea, ProFormUploadButton
 } from '@ant-design/pro-components';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { uploadFileUsingPost } from '@/services/stephen-backend/fileController';
 
-const BaseView: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
-  const currentUser = initialState?.currentUser;
+interface BaseViewProps {
+  user: API.User;
+}
+
+const BaseView: React.FC<BaseViewProps> = (props) => {
+  const { user } = props;
   const [userAvatar, setUserAvatar] = useState<string>();
   /**
    * 更新用户信息
@@ -27,7 +27,7 @@ const BaseView: React.FC = () => {
     try {
       await updateUserUsingPost({
         ...values,
-        id: currentUser?.id,
+        id: user?.id,
         userAvatar: userAvatar,
       });
       hide();
@@ -43,7 +43,7 @@ const BaseView: React.FC = () => {
   /**
    * 用户更新头像
    */
-  const props: UploadProps = {
+  const updateProps: UploadProps = {
     name: 'file',
     multiple: false,
     maxCount: 1,
@@ -55,9 +55,9 @@ const BaseView: React.FC = () => {
             biz: 'user_avatar',
           },
           {
-            file: file
+            file: file,
           },
-          file
+          file,
         );
         onSuccess(res.data);
         setUserAvatar(res.data);
@@ -68,54 +68,57 @@ const BaseView: React.FC = () => {
     },
     onRemove() {
       setUserAvatar(undefined);
-    }
+    },
   };
 
   return (
     <ProCard title="更新个人基本信息" extra={new Date().toLocaleDateString()} headerBordered>
-      <ProCard title="用户基本信息" colSpan="50%">
+      <ProCard>
         <ProForm
-          layout="vertical"
+          layout="horizontal"
           onFinish={async (values) => {
             await handleUpdate(values);
           }}
           submitter={{
             searchConfig: {
-              submitText: '更新基本信息',
+              submitText: '更新用户信息',
             },
             render: (_, dom) => dom[1],
           }}
-          initialValues={{
-            ...currentUser,
-          }}
+          initialValues={user}
         >
-          <ProFormText width={'md'} colProps={{ md: 12, xl: 8 }} name="userName" label="用户名" />
-          <ProFormText width={'md'} colProps={{ md: 12, xl: 8 }} name="userPhone" label="电话" />
-          <ProFormText width={'md'} colProps={{ md: 12, xl: 8 }} name="userEmail" label="邮箱" />
-          <ProFormTextArea
-            width={'md'}
-            colProps={{ md: 12, xl: 8 }}
-            name="userProfile"
-            label="简介"
-          />
+          <Row gutter={[24, 24]}>
+            <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={8}>
+              <ProFormText name="userName" label="用户名" />
+            </Col>
+            <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={8}>
+              <ProFormText name="userPhone" label="电话" />
+            </Col>
+            <Col xs={24} sm={12} md={12} lg={8} xl={8} xxl={8}>
+              <ProFormText name="userEmail" label="邮箱" />
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+              <ProFormTextArea name="userProfile" label="简介" />
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+              <Avatar
+                size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 100, xxl: 120 }}
+                icon={<AntDesignOutlined />}
+                src={user?.userAvatar}
+              />
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+              <ProFormUploadButton
+                title={'上传头像'}
+                max={1}
+                fieldProps={{
+                  ...updateProps,
+                }}
+                name="pic"
+              />
+            </Col>
+          </Row>
         </ProForm>
-      </ProCard>
-      <ProCard title="更新用户头像">
-        <div>
-          <Avatar
-            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 100, xxl: 120 }}
-            icon={<AntDesignOutlined />}
-            src={currentUser?.userAvatar}
-          />
-        </div>
-        <ProFormUploadButton
-          title={'上传头像'}
-          max={1}
-          fieldProps={{
-            ...props
-          }}
-          name="pic"
-        />
       </ProCard>
     </ProCard>
   );

@@ -68,6 +68,8 @@ const QuestionList: React.FC = () => {
     {
       title: '题目列表',
       dataIndex: 'questionContent',
+      valueType: 'textarea',
+      ellipsis: true,
     },
     {
       title: '创建时间',
@@ -131,7 +133,7 @@ const QuestionList: React.FC = () => {
       <ProTable<API.Question, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey="id"
+        rowKey={'id'}
         search={{
           labelWidth: 120,
         }}

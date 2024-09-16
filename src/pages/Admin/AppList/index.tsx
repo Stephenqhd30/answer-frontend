@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
@@ -9,7 +9,8 @@ import {
   listAppByPageUsingPost,
 } from '@/services/stephen-backend/appController';
 import CreateAppDrawer from '@/pages/Admin/AppList/components/CreateAppDrawer';
-import { reviewStatusList, reviewTagColor } from '@/enum/ReviewStatusEnum';
+import { reviewStatusEnum } from '@/enum/ReviewStatusEnum';
+import { appTypeEnum } from '@/enum/AppTypeEnum';
 
 /**
  * 删除节点
@@ -53,7 +54,12 @@ const UserList: React.FC = () => {
       dataIndex: 'id',
       valueType: 'text',
       hideInForm: true,
-      copyable: true,
+    },
+    {
+      title: '创建用户Id',
+      dataIndex: 'userId',
+      valueType: 'text',
+      hideInForm: true,
     },
     {
       title: '应用名',
@@ -77,53 +83,35 @@ const UserList: React.FC = () => {
     {
       title: '应用类型',
       dataIndex: 'appType',
-      valueEnum: {
-        0: {
-          text: '得分类应用',
-        },
-        1: {
-          text: '测评类应用',
-        },
-      },
+      valueEnum: appTypeEnum,
     },
     {
       title: '审核状态',
       dataIndex: 'reviewStatus',
-      valueEnum: {
-        0: {
-          text: '待审核',
-        },
-        1: {
-          text: '通过',
-        },
-        2: {
-          text: '拒绝',
-        },
-      },
-      render: (_, record) => (
-        <Tag bordered={false} color={reviewTagColor[record.reviewStatus as number]}>
-          {reviewStatusList.find((item) => item.value === record.reviewStatus)?.label}
-        </Tag>
-      ),
+      valueType: 'select',
+      hideInForm: true,
+      valueEnum: reviewStatusEnum,
+      render: (_, record) => {
+        // @ts-ignore
+        const status = reviewStatusEnum[record.reviewStatus];
+        return (
+          <Tag bordered={false} color={status.color}>
+            {status.text}
+          </Tag>
+        );
+      }
     },
     {
       title: '审核信息',
       dataIndex: 'reviewMessage',
       valueType: 'text',
+      hideInForm: true
     },
     {
       title: '审核人Id',
       dataIndex: 'reviewerId',
       valueType: 'text',
       hideInForm: true,
-      copyable: true,
-    },
-    {
-      title: '创建用户Id',
-      dataIndex: 'userId',
-      valueType: 'text',
-      hideInForm: true,
-      copyable: true,
     },
     {
       title: '评分策略',
@@ -205,22 +193,33 @@ const UserList: React.FC = () => {
   return (
     <>
       <ProTable<API.App, API.PageParams>
-        headerTitle={'查询表格'}
+        headerTitle={'应用表格'}
         actionRef={actionRef}
         rowKey={'id'}
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              setCreateDrawerVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
+          <Space key={"toolBar"}>
+            <Button
+              type="primary"
+              key="reviewing"
+              onClick={() => {
+                setCreateDrawerVisible(true);
+              }}
+            >
+              <EditOutlined/> 审核信息
+            </Button>
+            <Button
+              type="primary"
+              key="create"
+              onClick={() => {
+                setCreateDrawerVisible(true);
+              }}
+            >
+              <PlusOutlined/> 新建
+            </Button>
+          </Space>
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];

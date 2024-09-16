@@ -195,8 +195,8 @@ const UserAnswerList: React.FC = () => {
     <>
       <ProTable<API.UserAnswer, API.PageParams>
         headerTitle={'查询表格'}
+        rowKey={'id'}
         actionRef={actionRef}
-        rowKey={'key'}
         search={{
           labelWidth: 120,
         }}

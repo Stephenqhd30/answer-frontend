@@ -39,13 +39,14 @@ const UpdateUserDrawer: React.FC<UpdateProps> = (props) => {
   return (
     <Drawer
       destroyOnClose
-      title="{更新用户}"
-      width={640}
+      title={'更新用户'}
+      width={520}
       onClose={() => onCancel?.()}
       open={visible}
     >
       <ProTable
         type={'form'}
+        rowKey={'id'}
         form={{
           initialValues: oldData,
         }}

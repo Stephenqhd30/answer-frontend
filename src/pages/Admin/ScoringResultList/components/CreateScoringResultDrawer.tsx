@@ -44,13 +44,14 @@ const CreateScoringResultDrawer: React.FC<CreateProps> = (props) => {
       destroyOnClose
       title={'创建评分结果'}
       open={visible}
-      width={640}
+      width={520}
       onClose={() => {
         onCancel?.();
       }}
     >
       <ProTable
         columns={columns}
+        rowKey={'id'}
         onSubmit={async (values: API.ScoringResultAddRequest) => {
           const success = await handleAdd(values);
           if (success) {

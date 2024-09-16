@@ -5,6 +5,11 @@ export enum AppTypeEnum {
   SCORE = 0,
   TEXT = 1,
 }
+
+export const appTypeEnum = {
+  0: { text: '得分类应用' },
+  1: { text: '测评类应用' },
+};
 /**
  * 应用类型列表
  */

@@ -151,7 +151,7 @@ const ScoringResultList: React.FC = () => {
       <ProTable<API.ScoringResult, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey={'key'}
+        rowKey={'id'}
         search={{
           labelWidth: 120,
         }}

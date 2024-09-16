@@ -8,7 +8,7 @@ import {
   deleteUserUsingPost,
   listUserByPageUsingPost,
 } from '@/services/stephen-backend/userController';
-import { userRoleList, userRoleTagColor } from '@/enum/UserRoleEnum';
+import { userRoleEnum } from '@/enum/UserRoleEnum';
 import CreateUserDrawer from '@/pages/Admin/UserList/components/CreateUserDrawer';
 
 /**
@@ -91,22 +91,16 @@ const UserList: React.FC = () => {
     {
       title: '权限',
       dataIndex: 'userRole',
-      valueEnum: {
-        admin: {
-          text: '管理员',
-        },
-        user: {
-          text: '普通用户',
-        },
+      valueEnum: userRoleEnum,
+      render: (_, record) => {
+        // @ts-ignore
+        const role = userRoleEnum[record?.userRole];
+        return (
+          <Tag bordered={false} color={role.color}>
+            {role.text}
+          </Tag>
+        );
       },
-      render: (_, record) => (
-        <Tag
-          bordered={false}
-          color={record.userRole === 'admin' ? userRoleTagColor[0] : userRoleTagColor[1]}
-        >
-          {userRoleList.find((item) => item.value === record.userRole)?.label}
-        </Tag>
-      ),
     },
     {
       title: '创建时间',
@@ -170,7 +164,7 @@ const UserList: React.FC = () => {
       <ProTable<API.User, API.PageParams>
         headerTitle={'查询表格'}
         actionRef={actionRef}
-        rowKey={'key'}
+        rowKey={'id'}
         search={{
           labelWidth: 120,
         }}

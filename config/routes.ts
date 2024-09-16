@@ -1,6 +1,6 @@
 export default [
-  { path: '/', redirect: '/welcome' },
-  { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+  { path: '/', redirect: '/home' },
+  { path: '/home', name: '主页', icon: 'HomeOutlined', component: './Home' },
   {
     path: '/user',
     layout: false,

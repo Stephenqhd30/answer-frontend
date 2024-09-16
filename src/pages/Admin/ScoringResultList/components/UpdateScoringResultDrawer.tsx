@@ -41,13 +41,14 @@ const UpdateScoringResultDrawer: React.FC<UpdateProps> = (props) => {
       destroyOnClose
       title={'更新评分结果'}
       open={visible}
-      width={640}
+      width={520}
       onClose={() => {
         onCancel?.();
       }}
     >
       <ProTable
         type={'form'}
+        rowKey={'id'}
         form={{
           initialValues: oldData,
         }}
