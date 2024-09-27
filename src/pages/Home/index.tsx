@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Search from 'antd/es/input/Search';
-import { ProList } from '@ant-design/pro-components';
+import { PageContainer, ProList } from '@ant-design/pro-components';
 import AppCard from '@/components/ReHome/AppCard';
 import { listAppVoByPageUsingPost } from '@/services/stephen-backend/appController';
 
@@ -22,9 +22,13 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <>
+    <PageContainer
+      header={{
+        title: '',
+      }}
+    >
       <Search
-        style={{ maxWidth: 960, margin: '0 auto 16px' }}
+        style={{ maxWidth: 1200, margin: '0 auto 16px' }}
         placeholder="快速发现答题应用"
         allowClear
         loading={searchLoading}
@@ -35,12 +39,9 @@ const HomePage: React.FC = () => {
       <ProList<API.AppVO, API.PageParams>
         itemLayout="vertical"
         rowKey="id"
-        grid={{ gutter: 24, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5 }}
+        grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 4 }}
         headerTitle="应用列表"
-        pagination={{
-          current: 1,
-          pageSize: 12,
-        }}
+        pagination={initSearchParams}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
@@ -50,7 +51,7 @@ const HomePage: React.FC = () => {
             sortField,
             sortOrder,
           } as API.AppQueryRequest);
-          setDataList(data?.records || []);
+          setDataList(data?.records || [] as API.AppVO[]);
           return {
             success: code === 0,
             data: data?.records || [],
@@ -60,7 +61,7 @@ const HomePage: React.FC = () => {
         dataSource={dataList}
         renderItem={(item) => <AppCard key={item.id} app={item} />}
       />
-    </>
+    </PageContainer>
   );
 };
 

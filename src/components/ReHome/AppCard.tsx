@@ -4,7 +4,7 @@ import { ProCard } from '@ant-design/pro-components';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { appTypeEnum } from '@/enum/AppTypeEnum';
-import { history } from '@umijs/max';
+import {history} from '@@/core/history';
 
 interface AppCardProps {
   app: API.AppVO;
@@ -14,10 +14,10 @@ const AppCard: React.FC<AppCardProps> = (props) => {
   const { app } = props;
   return (
     <ProCard
-      onClick={() => {
-        history.push(`/app/details/${app.id}`);
-      }}
       bordered
+      onClick={() => {
+        history.push(`/app/detail/${app.id}`);
+      }}
       title={app.appName}
       // @ts-ignore
       tooltip={appTypeEnum[app?.appType].text}

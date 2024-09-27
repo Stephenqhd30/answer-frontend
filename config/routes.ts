@@ -1,6 +1,12 @@
 export default [
   { path: '/', redirect: '/home' },
-  { path: '/home', name: '主页', icon: 'HomeOutlined', component: './Home' },
+  {
+    path: '/home',
+    name: '主页',
+    icon: 'HomeOutlined',
+    component: './Home',
+  },
+  { path: '/app/detail/:id', name: '应用详细页', component: './App/Detail' },
   {
     path: '/user',
     layout: false,
@@ -19,7 +25,11 @@ export default [
       { name: '用户管理', path: '/admin/user', component: './Admin/UserList' },
       { name: '应用管理', path: '/admin/app', component: './Admin/AppList' },
       { name: '题目管理', path: '/admin/question', component: './Admin/QuestionList' },
-      { name: '评分结果管理', path: '/admin/scoringResult', component: './Admin/ScoringResultList' },
+      {
+        name: '评分结果管理',
+        path: '/admin/scoringResult',
+        component: './Admin/ScoringResultList',
+      },
       { name: '用户回答管理', path: '/admin/userAnswer', component: './Admin/UserAnswerList' },
     ],
   },
