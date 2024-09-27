@@ -1,14 +1,14 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Drawer, message } from 'antd';
+import {Drawer, message, Modal} from 'antd';
 import React from 'react';
-import { addAppUsingPost } from '@/services/stephen-backend/appController';
+import { addScoringResultUsingPost } from '@/services/stephen-backend/scoringResultController';
 
 interface CreateProps {
   onCancel: () => void;
-  onSubmit: (values: API.AppAddRequest) => Promise<void>;
+  onSubmit: (values: API.ScoringResultAddRequest) => Promise<void>;
   visible: boolean;
-  columns: ProColumns<API.App>[];
+  columns: ProColumns<API.ScoringResult>[];
 }
 
 /**
@@ -16,10 +16,10 @@ interface CreateProps {
  *
  * @param fields
  */
-const handleAdd = async (fields: API.AppAddRequest) => {
+const handleAdd = async (fields: API.ScoringResultAddRequest) => {
   const hide = message.loading('正在添加');
   try {
-    await addAppUsingPost({
+    await addScoringResultUsingPost({
       ...fields,
     });
     hide();
@@ -37,22 +37,22 @@ const handleAdd = async (fields: API.AppAddRequest) => {
  * @param props
  * @constructor
  */
-const CreateAppDrawer: React.FC<CreateProps> = (props) => {
+const CreateScoringResultModal: React.FC<CreateProps> = (props) => {
   const { visible, onSubmit, onCancel, columns } = props;
   return (
-    <Drawer
+    <Modal
       destroyOnClose
-      title={'创建应用'}
+      title={'创建评分结果'}
       open={visible}
-      width={520}
-      onClose={() => {
+      onCancel={() => {
         onCancel?.();
       }}
+      footer={null}
     >
       <ProTable
         columns={columns}
         rowKey={'id'}
-        onSubmit={async (values: API.AppAddRequest) => {
+        onSubmit={async (values: API.ScoringResultAddRequest) => {
           const success = await handleAdd(values);
           if (success) {
             onSubmit?.(values);
@@ -60,7 +60,7 @@ const CreateAppDrawer: React.FC<CreateProps> = (props) => {
         }}
         type={'form'}
       />
-    </Drawer>
+    </Modal>
   );
 };
-export default CreateAppDrawer;
+export default CreateScoringResultModal;

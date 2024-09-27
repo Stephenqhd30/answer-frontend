@@ -1,6 +1,6 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Drawer, message, Modal} from 'antd';
+import { message, Modal } from 'antd';
 import React from 'react';
 import { addQuestionUsingPost } from '@/services/stephen-backend/questionController';
 
@@ -37,17 +37,17 @@ const handleAdd = async (fields: API.QuestionAddRequest) => {
  * @param props
  * @constructor
  */
-const CreateQuestionDrawer: React.FC<CreateProps> = (props) => {
+const CreateQuestionModal: React.FC<CreateProps> = (props) => {
   const { visible, onSubmit, onCancel, columns } = props;
   return (
-    <Drawer
+    <Modal
       destroyOnClose
       title={'创建用户'}
       open={visible}
-      width={520}
-      onClose={() => {
+      onCancel={() => {
         onCancel?.();
       }}
+      footer={null}
     >
       <ProTable
         columns={columns}
@@ -60,7 +60,7 @@ const CreateQuestionDrawer: React.FC<CreateProps> = (props) => {
         }}
         type={'form'}
       />
-    </Drawer>
+    </Modal>
   );
 };
-export default CreateQuestionDrawer;
+export default CreateQuestionModal;

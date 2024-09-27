@@ -1,6 +1,6 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Drawer, message } from 'antd';
+import {Drawer, message, Modal} from 'antd';
 import React from 'react';
 import { addUserAnswerUsingPost } from '@/services/stephen-backend/userAnswerController';
 
@@ -37,17 +37,17 @@ const handleAdd = async (fields: API.UserAnswerAddRequest) => {
  * @param props
  * @constructor
  */
-const CreateUserAnswerDrawer: React.FC<CreateProps> = (props) => {
+const CreateUserAnswerModal: React.FC<CreateProps> = (props) => {
   const { visible, onSubmit, onCancel, columns } = props;
   return (
-    <Drawer
+    <Modal
       destroyOnClose
       title={'创建用户回答'}
       open={visible}
-      width={520}
-      onClose={() => {
+      onCancel={() => {
         onCancel?.();
       }}
+      footer={null}
     >
       <ProTable
         columns={columns}
@@ -60,7 +60,7 @@ const CreateUserAnswerDrawer: React.FC<CreateProps> = (props) => {
         }}
         type={'form'}
       />
-    </Drawer>
+    </Modal>
   );
 };
-export default CreateUserAnswerDrawer;
+export default CreateUserAnswerModal;

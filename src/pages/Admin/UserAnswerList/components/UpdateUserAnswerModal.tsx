@@ -1,6 +1,6 @@
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Drawer, message } from 'antd';
+import { message, Modal } from 'antd';
 import React from 'react';
 import { updateUserAnswerUsingPost } from '@/services/stephen-backend/userAnswerController';
 
@@ -37,14 +37,14 @@ const UpdateUserAnswerAnswerModal: React.FC<UpdateProps> = (props) => {
   }
 
   return (
-    <Drawer
+    <Modal
       destroyOnClose
       title={'更新用户回答'}
       open={visible}
-      width={520}
-      onClose={() => {
+      onCancel={() => {
         onCancel?.();
       }}
+      footer={null}
     >
       <ProTable
         type={'form'}
@@ -63,7 +63,7 @@ const UpdateUserAnswerAnswerModal: React.FC<UpdateProps> = (props) => {
           }
         }}
       />
-    </Drawer>
+    </Modal>
   );
 };
 export default UpdateUserAnswerAnswerModal;

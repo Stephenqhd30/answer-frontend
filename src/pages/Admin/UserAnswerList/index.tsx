@@ -3,12 +3,14 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateUserAnswerDrawer from './components/UpdateUserAnswerDrawer';
 import {
   deleteUserAnswerUsingPost,
   listUserAnswerByPageUsingPost,
 } from '@/services/stephen-backend/userAnswerController';
-import CreateUserAnswerDrawer from '@/pages/Admin/UserAnswerList/components/CreateUserAnswerDrawer';
+import {
+  CreateUserAnswerModal,
+  UpdateUserAnswerModal,
+} from '@/pages/Admin/UserAnswerList/components';
 
 /**
  * 删除节点
@@ -35,10 +37,10 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * @constructor
  */
 const UserAnswerList: React.FC = () => {
-  // 新建窗口的Drawer框
-  const [createDrawerVisible, setCreateDrawerVisible] = useState<boolean>(false);
-  // 更新窗口的Drawer框
-  const [updateDrawerVisible, setUpdateDrawerVisible] = useState<boolean>(false);
+  // 新建窗口的Modal框
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
+  // 更新窗口的Modal框
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.UserAnswer>();
@@ -159,7 +161,7 @@ const UserAnswerList: React.FC = () => {
           <Typography.Link
             key="update"
             onClick={() => {
-              setUpdateDrawerVisible(true);
+              setUpdateModalVisible(true);
               setCurrentRow(record);
               actionRef.current?.reload();
             }}
@@ -205,7 +207,7 @@ const UserAnswerList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateDrawerVisible(true);
+              setCreateModalVisible(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -230,32 +232,32 @@ const UserAnswerList: React.FC = () => {
         columns={columns}
       />
 
-      {/*新建表单的Drawer框*/}
-      {createDrawerVisible && (
-        <CreateUserAnswerDrawer
+      {/*新建表单的Modal框*/}
+      {createModalVisible && (
+        <CreateUserAnswerModal
           onCancel={() => {
-            setCreateDrawerVisible(false);
+            setCreateModalVisible(false);
           }}
           onSubmit={async () => {
-            setCreateDrawerVisible(false);
+            setCreateModalVisible(false);
             actionRef.current?.reload();
           }}
-          visible={createDrawerVisible}
+          visible={createModalVisible}
           columns={columns}
         />
       )}
-      {/*更新表单的Drawer框*/}
-      {updateDrawerVisible && (
-        <UpdateUserAnswerDrawer
+      {/*更新表单的Modal框*/}
+      {updateModalVisible && (
+        <UpdateUserAnswerModal
           onCancel={() => {
-            setUpdateDrawerVisible(false);
+            setUpdateModalVisible(false);
           }}
           onSubmit={async () => {
-            setUpdateDrawerVisible(false);
+            setUpdateModalVisible(false);
             setCurrentRow(undefined);
             actionRef.current?.reload();
           }}
-          visible={updateDrawerVisible}
+          visible={updateModalVisible}
           columns={columns}
           oldData={currentRow}
         />

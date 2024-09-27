@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Image, message, Row } from 'antd';
+import { Card, Col, message, Row } from 'antd';
 import { getAppVoByIdUsingGet } from '@/services/stephen-backend/appController';
 import { useParams } from '@@/exports';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';

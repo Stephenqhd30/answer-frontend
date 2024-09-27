@@ -14,6 +14,7 @@ const UserDetailsCard: React.FC<UserProps> = (props) => {
     <>
       <ProCard>
         <ProDescriptions<API.User>
+          column={1}
           title={
             <>
               <Typography.Title level={3}>{user?.userName}</Typography.Title>

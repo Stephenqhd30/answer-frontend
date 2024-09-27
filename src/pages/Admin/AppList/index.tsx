@@ -3,14 +3,13 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
-import UpdateAppDrawer from './components/UpdateAppDrawer';
 import {
   deleteAppUsingPost,
   listAppByPageUsingPost,
 } from '@/services/stephen-backend/appController';
-import CreateAppDrawer from '@/pages/Admin/AppList/components/CreateAppDrawer';
 import { reviewStatusEnum } from '@/enum/ReviewStatusEnum';
 import { appTypeEnum } from '@/enum/AppTypeEnum';
+import {CreateAppModal, UpdateAppModal} from '@/pages/Admin/AppList/components';
 
 /**
  * 删除节点
@@ -37,10 +36,10 @@ const handleDelete = async (row: API.DeleteRequest) => {
  * @constructor
  */
 const UserList: React.FC = () => {
-  // 新建窗口的Drawer框
-  const [createDrawerVisible, setCreateDrawerVisible] = useState<boolean>(false);
-  // 更新窗口的Drawer框
-  const [updateDrawerVisible, setUpdateDrawerVisible] = useState<boolean>(false);
+  // 新建窗口的Modal框
+  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
+  // 更新窗口的Modal框
+  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.App>();
@@ -158,7 +157,7 @@ const UserList: React.FC = () => {
           <Typography.Link
             key="update"
             onClick={() => {
-              setUpdateDrawerVisible(true);
+              setUpdateModalVisible(true);
               setCurrentRow(record);
               actionRef.current?.reload();
             }}
@@ -205,7 +204,7 @@ const UserList: React.FC = () => {
               type="primary"
               key="reviewing"
               onClick={() => {
-                setCreateDrawerVisible(true);
+                setCreateModalVisible(true);
               }}
             >
               <EditOutlined/> 审核信息
@@ -214,7 +213,7 @@ const UserList: React.FC = () => {
               type="primary"
               key="create"
               onClick={() => {
-                setCreateDrawerVisible(true);
+                setCreateModalVisible(true);
               }}
             >
               <PlusOutlined/> 新建
@@ -240,32 +239,32 @@ const UserList: React.FC = () => {
         columns={columns}
       />
 
-      {/*新建表单的Drawer框*/}
-      {createDrawerVisible && (
-        <CreateAppDrawer
+      {/*新建表单的Modal框*/}
+      {createModalVisible && (
+        <CreateAppModal
           onCancel={() => {
-            setCreateDrawerVisible(false);
+            setCreateModalVisible(false);
           }}
           onSubmit={async () => {
-            setCreateDrawerVisible(false);
+            setCreateModalVisible(false);
             actionRef.current?.reload();
           }}
-          visible={createDrawerVisible}
+          visible={createModalVisible}
           columns={columns}
         />
       )}
-      {/*更新表单的Drawer框*/}
-      {updateDrawerVisible && (
-        <UpdateAppDrawer
+      {/*更新表单的Modal框*/}
+      {updateModalVisible && (
+        <UpdateAppModal
           onCancel={() => {
-            setUpdateDrawerVisible(false);
+            setUpdateModalVisible(false);
           }}
           onSubmit={async () => {
-            setUpdateDrawerVisible(false);
+            setUpdateModalVisible(false);
             setCurrentRow(undefined);
             actionRef.current?.reload();
           }}
-          visible={updateDrawerVisible}
+          visible={updateModalVisible}
           columns={columns}
           oldData={currentRow}
         />
