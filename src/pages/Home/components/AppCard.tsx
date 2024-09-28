@@ -22,9 +22,9 @@ const AppCard: React.FC<AppCardProps> = (props) => {
       // @ts-ignore
       tooltip={appTypeEnum[app?.appType].text}
       extra={<ShareAltOutlined />}
-      style={{ maxWidth: 320, marginBlockStart: 8 }}
+      style={{ maxWidth: 256, marginBlockStart: 8 }}
     >
-      <Space size={'middle'} direction="vertical">
+      <Space size={'middle'} direction="vertical" wrap>
         <Image preview={false} src={app.appIcon} />
         <Typography.Title level={5}>{app.appName}</Typography.Title>
         <span>{app.appDesc}</span>

@@ -616,6 +616,15 @@ declare namespace API {
     userVO?: UserVO;
   };
 
+  type UserEditRequest = {
+    userAvatar?: string;
+    userEmail?: string;
+    userName?: string;
+    userPassword?: string;
+    userPhone?: string;
+    userProfile?: string;
+  };
+
   type UserLoginRequest = {
     userAccount?: string;
     userPassword?: string;
@@ -642,19 +651,12 @@ declare namespace API {
     userPassword?: string;
   };
 
-  type UserUpdateMyRequest = {
-    userAvatar?: string;
-    userEmail?: string;
-    userName?: string;
-    userPhone?: string;
-    userProfile?: string;
-  };
-
   type UserUpdateRequest = {
     id?: number;
     userAvatar?: string;
     userEmail?: string;
     userName?: string;
+    userPassword?: string;
     userPhone?: string;
     userProfile?: string;
     userRole?: string;

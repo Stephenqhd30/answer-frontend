@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, message, Row } from 'antd';
+import {Image, message} from 'antd';
 import { getAppVoByIdUsingGet } from '@/services/stephen-backend/appController';
 import { useParams } from '@@/exports';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
+import { PageContainer, ProCard } from '@ant-design/pro-components';
 
 const AppDetail: React.FC = () => {
   // 获取路由参数中的id
   const { id } = useParams<{ id: string }>();
+  // 是否处于加载状态
   const [loading, setLoading] = useState<boolean>(false);
   const [appData, setAppData] = useState<API.AppVO>({});
+  const [responsive, setResponsive] = useState(false);
 
   /**
    * 加载数据
@@ -34,19 +37,26 @@ const AppDetail: React.FC = () => {
     loadData();
   }, [id]);
   return (
-    <Card>
-      <Row style={{ marginBottom: 16 }}>
-        <Col flex="auto">
-          <h2>{appData.appName}</h2>
-          <p>{appData.appDesc}</p>
-          <div>
-            作者：
-            <UserAvatarCard key={appData.userId} user={appData.userVO as API.User} />
-          </div>
-        </Col>
-
-      </Row>
-    </Card>
+    <PageContainer
+      header={{
+        title: '',
+      }}
+    >
+      <ProCard
+        title={appData.appName}
+        loading={loading}
+        extra={new Date().toLocaleDateString()}
+        split={responsive ? 'horizontal' : 'vertical'}
+        bordered={false}
+      >
+        <ProCard colSpan="50%" bordered={false}>
+          <UserAvatarCard user={appData?.userVO || {}} />
+        </ProCard>
+        <ProCard bordered={false} colSpan="50%">
+          <Image style={{ height: 360 }} src={appData.appIcon} />
+        </ProCard>
+      </ProCard>
+    </PageContainer>
   );
 };
 

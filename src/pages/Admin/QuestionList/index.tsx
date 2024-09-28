@@ -67,7 +67,6 @@ const QuestionList: React.FC = () => {
       title: '题目列表',
       dataIndex: 'questionContent',
       valueType: 'textarea',
-      ellipsis: true,
     },
     {
       title: '创建时间',
