@@ -1,15 +1,16 @@
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
+import { Button, message, Popconfirm, Select, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import {
   deleteAppUsingPost,
   listAppByPageUsingPost,
 } from '@/services/stephen-backend/appController';
 import { reviewStatusEnum } from '@/enum/ReviewStatusEnum';
-import { appTypeEnum } from '@/enum/AppTypeEnum';
-import {CreateAppModal, UpdateAppModal} from '@/pages/Admin/AppList/components';
+import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
+import { CreateAppModal, UpdateAppModal } from '@/pages/Admin/AppList/components';
+import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
 
 /**
  * 删除节点
@@ -83,6 +84,14 @@ const UserList: React.FC = () => {
       title: '应用类型',
       dataIndex: 'appType',
       valueEnum: appTypeEnum,
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Select.Option value={AppType.SCORE}>{appTypeEnum[AppType.SCORE].text}</Select.Option>
+            <Select.Option value={AppType.TEXT}>{appTypeEnum[AppType.TEXT].text}</Select.Option>
+          </Select>
+        );
+      },
     },
     {
       title: '审核状态',
@@ -98,13 +107,13 @@ const UserList: React.FC = () => {
             {status.text}
           </Tag>
         );
-      }
+      },
     },
     {
       title: '审核信息',
       dataIndex: 'reviewMessage',
       valueType: 'text',
-      hideInForm: true
+      hideInForm: true,
     },
     {
       title: '审核人Id',
@@ -115,13 +124,18 @@ const UserList: React.FC = () => {
     {
       title: '评分策略',
       dataIndex: 'scoringStrategy',
-      valueEnum: {
-        0: {
-          text: '自定义评分',
-        },
-        1: {
-          text: 'AI评分',
-        },
+      valueEnum: scoringStrategyEnum,
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Select.Option value={ScoringStrategy.CUSTOM}>
+              {scoringStrategyEnum[ScoringStrategy.CUSTOM].text}
+            </Select.Option>
+            <Select.Option value={ScoringStrategy.AI}>
+              {scoringStrategyEnum[ScoringStrategy.AI].text}
+            </Select.Option>
+          </Select>
+        );
       },
     },
     {

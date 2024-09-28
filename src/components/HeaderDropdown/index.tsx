@@ -8,7 +8,7 @@ const useStyles = createStyles(({ token }) => {
   return {
     dropdown: {
       [`@media screen and (max-width: ${token.screenXS}px)`]: {
-        width: '100%',
+        width: '30%',
       },
     },
   };

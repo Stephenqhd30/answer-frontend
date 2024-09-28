@@ -3,10 +3,10 @@ export default [
   {
     path: '/home',
     name: '主页',
-    icon: 'HomeOutlined',
+    icon: 'AppstoreOutlined',
     component: './Home',
   },
-  { path: '/app/detail/:id', name: '应用详细页', component: './App/Detail' },
+  { path: '/app/detail/:id', name: '应用详细页', component: './App/Detail', hideInMenu: true },
   {
     path: '/user',
     layout: false,
@@ -31,6 +31,16 @@ export default [
         component: './Admin/ScoringResultList',
       },
       { name: '用户回答管理', path: '/admin/userAnswer', component: './Admin/UserAnswerList' },
+    ],
+  },
+  {
+    path: '/review',
+    name: '审核信息页',
+    access: 'canAdmin',
+    icon: 'UnorderedListOutlined',
+    routes: [
+      { path: '/review', redirect: '/review/app' },
+      { path: '/review/app', name: '应用审核', component: './AppReview' },
     ],
   },
   {

@@ -40,6 +40,7 @@ declare namespace API {
     appType?: number;
     current?: number;
     id?: number;
+    notId?: number;
     pageSize?: number;
     reviewMessage?: string;
     reviewStatus?: number;

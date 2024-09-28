@@ -4,7 +4,7 @@ import { ProCard } from '@ant-design/pro-components';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { appTypeEnum } from '@/enum/AppTypeEnum';
-import {history} from '@@/core/history';
+import { history } from '@@/core/history';
 
 interface AppCardProps {
   app: API.AppVO;
@@ -22,10 +22,10 @@ const AppCard: React.FC<AppCardProps> = (props) => {
       // @ts-ignore
       tooltip={appTypeEnum[app?.appType].text}
       extra={<ShareAltOutlined />}
-      style={{ maxWidth: 320, marginBlockStart: 16 }}
+      style={{ maxWidth: 320, marginBlockStart: 8 }}
     >
       <Space size={'middle'} direction="vertical">
-        <Image src={app.appIcon} />
+        <Image preview={false} src={app.appIcon} />
         <Typography.Title level={5}>{app.appName}</Typography.Title>
         <span>{app.appDesc}</span>
         <UserAvatarCard user={app.userVO || {}} />

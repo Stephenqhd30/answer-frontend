@@ -1,13 +1,13 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Tag, Typography } from 'antd';
+import { Button, message, Popconfirm, Select, Space, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import {
   deleteUserUsingPost,
   listUserByPageUsingPost,
 } from '@/services/stephen-backend/userController';
-import { userRoleEnum } from '@/enum/UserRoleEnum';
+import { UserRole, userRoleEnum } from '@/enum/UserRole';
 import { CreateUserModal, UpdateUserModal } from '@/pages/Admin/UserList/components';
 
 /**
@@ -100,6 +100,21 @@ const UserList: React.FC = () => {
           </Tag>
         );
       },
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Select.Option value={UserRole.ADMIN}>
+              {userRoleEnum[UserRole.ADMIN].text}
+            </Select.Option>
+            <Select.Option value={UserRole.USER}>
+              {userRoleEnum[UserRole.USER].text}
+            </Select.Option>
+            <Select.Option value={UserRole.BAN}>
+              {userRoleEnum[UserRole.BAN].text}
+            </Select.Option>
+          </Select>
+        );
+      }
     },
     {
       title: '创建时间',

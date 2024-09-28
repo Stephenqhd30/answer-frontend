@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Typography } from 'antd';
+import { Button, message, Popconfirm, Select, Space, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import {
   deleteUserAnswerUsingPost,
@@ -11,6 +11,8 @@ import {
   CreateUserAnswerModal,
   UpdateUserAnswerModal,
 } from '@/pages/Admin/UserAnswerList/components';
+import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
+import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
 
 /**
  * 删除节点
@@ -95,13 +97,14 @@ const UserAnswerList: React.FC = () => {
     {
       title: '应用类型',
       dataIndex: 'appType',
-      valueEnum: {
-        0: {
-          text: '得分类应用',
-        },
-        1: {
-          text: '测评类应用',
-        },
+      valueEnum: appTypeEnum,
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Select.Option value={AppType.SCORE}>{appTypeEnum[AppType.SCORE].text}</Select.Option>
+            <Select.Option value={AppType.TEXT}>{appTypeEnum[AppType.TEXT].text}</Select.Option>
+          </Select>
+        );
       },
     },
     {
@@ -114,28 +117,22 @@ const UserAnswerList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '简介',
-      dataIndex: 'userProfile',
-      valueType: 'textarea',
-    },
-    {
       title: '评分策略',
       dataIndex: 'scoringStrategy',
-      valueEnum: {
-        0: {
-          text: '自定义评分',
-        },
-        1: {
-          text: 'AI评分',
-        },
+      valueEnum: scoringStrategyEnum,
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Select.Option value={ScoringStrategy.CUSTOM}>
+              {scoringStrategyEnum[ScoringStrategy.CUSTOM].text}
+            </Select.Option>
+            <Select.Option value={ScoringStrategy.AI}>
+              {scoringStrategyEnum[ScoringStrategy.AI].text}
+            </Select.Option>
+          </Select>
+        );
       },
     },
-    {
-      title: '电话',
-      dataIndex: 'userPhone',
-      valueType: 'text',
-    },
-
     {
       title: '创建时间',
       sorter: true,
