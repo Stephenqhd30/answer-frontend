@@ -1,10 +1,11 @@
 import React from 'react';
 import { Modal } from 'antd';
-import {ProCard, ProTable} from '@ant-design/pro-components';
+import { ProCard } from '@ant-design/pro-components';
+import { UserDetailsCard } from '@/pages/Account/Center/components';
 
 interface Props {
   onCancel: () => void;
-  onSubmit: (values: API.AppUpdateRequest) => Promise<void>;
+  onSubmit: () => Promise<void>;
   visible: boolean;
   userInfo: API.User;
 }
@@ -15,15 +16,15 @@ const UserDetailsModal: React.FC<Props> = (props) => {
   return (
     <Modal
       destroyOnClose
-      title={'创建用户详情'}
+      title={'创建用户信息'}
       open={visible}
       onCancel={() => {
         onCancel?.();
       }}
       footer
     >
-      <ProCard>
-
+      <ProCard onSubmit={() => onSubmit?.()}>
+        <UserDetailsCard user={userInfo} />
       </ProCard>
     </Modal>
   );

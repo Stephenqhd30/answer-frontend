@@ -2,6 +2,7 @@ import '@umijs/max';
 import React from 'react';
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
 import { Typography } from 'antd';
+import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
 
 interface UserProps {
   user: API.User;
@@ -16,9 +17,9 @@ const UserDetailsCard: React.FC<UserProps> = (props) => {
         <ProDescriptions<API.User>
           column={1}
           title={
-            <>
-              <Typography.Title level={3}>{user?.userName}</Typography.Title>
-            </>
+            <Typography.Title level={3}>
+              <UserAvatarCard user={user} />
+            </Typography.Title>
           }
           dataSource={user}
           emptyText={'该用户比较懒 还没有设置'}

@@ -11,6 +11,7 @@ import { reviewStatusEnum } from '@/enum/ReviewStatusEnum';
 import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
 import { CreateAppModal, UpdateAppModal } from '@/pages/Admin/AppList/components';
 import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
+import { history } from '@@/core/history';
 
 /**
  * 删除节点
@@ -216,21 +217,21 @@ const UserList: React.FC = () => {
           <Space key={"toolBar"}>
             <Button
               type="primary"
-              key="reviewing"
-              onClick={() => {
-                setCreateModalVisible(true);
-              }}
-            >
-              <EditOutlined/> 审核信息
-            </Button>
-            <Button
-              type="primary"
               key="create"
               onClick={() => {
                 setCreateModalVisible(true);
               }}
             >
               <PlusOutlined/> 新建
+            </Button>
+            <Button
+              type="primary"
+              key="reviewing"
+              onClick={() => {
+                history.push('/review/app');
+              }}
+            >
+              <EditOutlined/> 审核信息
             </Button>
           </Space>
         ]}

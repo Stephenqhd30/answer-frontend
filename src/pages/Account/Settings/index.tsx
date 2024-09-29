@@ -7,7 +7,7 @@ import SecurityView from '@/pages/Account/Settings/components/SecurityView';
 import BindingView from '@/pages/Account/Settings/components/BindingView';
 import styles from './index.less';
 import { Grid } from 'antd';
-import {useModel} from '@@/exports';
+import { useModel } from '@@/exports';
 
 const { useBreakpoint } = Grid;
 
