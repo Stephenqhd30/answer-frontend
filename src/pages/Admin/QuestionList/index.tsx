@@ -128,7 +128,7 @@ const QuestionList: React.FC = () => {
   return (
     <>
       <ProTable<API.Question, API.PageParams>
-        headerTitle={'查询表格'}
+        headerTitle={'题目表格'}
         actionRef={actionRef}
         rowKey={'id'}
         search={{

@@ -6,7 +6,38 @@ export default [
     icon: 'AppstoreOutlined',
     component: './Home',
   },
-  { path: '/app/detail/:id', name: '应用详细页', component: './App/Detail', hideInMenu: true },
+  {
+    path: '/my',
+    name: '我的',
+    icon: 'UserOutlined',
+    routes: [
+      { path: '/my', redirect: '/my/create/app' },
+      { path: '/my/create/app', name: '我创建的应用', component: './MyCreate/App' },
+    ],
+  },
+  { path: '/app/detail/:id', name: '应用详细页', component: './App', hideInMenu: true },
+  {
+    path: '/add',
+    name: '创建',
+    icon: 'AppstoreAddOutlined',
+    routes: [
+      { path: '/add', redirect: '/add/app' },
+      { path: '/add/app', name: '创建应用', component: './Add/App' },
+      { path: '/add/app/:id', name: '修改应用', component: './Add/App', hideInMenu: true },
+      {
+        path: '/add/question/:appId',
+        name: '创建题目',
+        component: './Add/Question',
+        hideInMnu: true,
+      },
+      {
+        path: '/add/scoring_result/:appId',
+        name: '创建评分',
+        component: './Add/ScoringResult',
+        hideInMnu: true,
+      },
+    ],
+  },
   {
     path: '/user',
     layout: false,
