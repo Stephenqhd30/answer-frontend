@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { message, Space, Tag, Typography } from 'antd';
+import { Button, message, Space, Tag, Typography } from 'antd';
 import { getUserByIdUsingGet } from '@/services/stephen-backend/userController';
 import { appTypeEnum } from '@/enum/AppTypeEnum';
 import { ReviewStatus, reviewStatusEnum } from '@/enum/ReviewStatusEnum';
 import { listAppByPageUsingPost } from '@/services/stephen-backend/appController';
 import { scoringStrategyEnum } from '@/enum/ScoringStrategy';
-import { ReviewModal, UserDetailsModal } from '@/pages/AppReview/components';
+import { BatchReviewModal, ReviewModal, UserDetailsModal } from '@/pages/AppReview/components';
 
 const AppReview: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -14,10 +14,15 @@ const AppReview: React.FC = () => {
   const [userDetailsModal, setUserDetailsModal] = useState<boolean>(false);
   // 审核信息 Modal 框
   const [reviewModal, setReviewModal] = useState<boolean>(false);
+  // 批量审核信息 Modal 框
+  const [batchReviewModal, setBatchReviewModal] = useState<boolean>(false);
   // 当前行数据
   const [currentRow, setCurrentRow] = useState<API.App>({});
   // 获得者用户信息
   const [userInfo, setUserInfo] = useState<API.User>({});
+  // 选中行数据
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
+
   /**
    * 获得者用户信息
    * @param userId 获得者用户id
@@ -32,6 +37,7 @@ const AppReview: React.FC = () => {
       message.error('获取用户数据失败' + error.message);
     }
   };
+
   /**
    * 表格列数据
    */
@@ -169,6 +175,25 @@ const AppReview: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
+        rowSelection={{
+          selectedRowKeys: selectedRowKeys,
+          onChange: setSelectedRowKeys,
+        }}
+        tableAlertOptionRender={() => {
+          return (
+            <Space>
+              <Button
+                type="primary"
+                onClick={async () => {
+                  setBatchReviewModal(true);
+                  actionRef.current?.reload();
+                }}
+              >
+                批量审核
+              </Button>
+            </Space>
+          );
+        }}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
@@ -206,6 +231,19 @@ const AppReview: React.FC = () => {
           visible={reviewModal}
           onCancel={() => setReviewModal(false)}
           certificate={currentRow ?? {}}
+          columns={columns}
+          onSubmit={async () => {
+            setReviewModal(false);
+            actionRef.current?.reload();
+          }}
+        />
+      )}
+      {/*批量审核*/}
+      {batchReviewModal && (
+        <BatchReviewModal
+          visible={batchReviewModal}
+          onCancel={() => setBatchReviewModal(false)}
+          selectedRowKeys={selectedRowKeys ?? []}
           columns={columns}
           onSubmit={async () => {
             setReviewModal(false);

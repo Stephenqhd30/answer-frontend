@@ -116,6 +116,21 @@ export async function doAppReviewUsingPost(
   });
 }
 
+/** doAppReviewByBatch POST /api/app/review/batch */
+export async function doAppReviewByBatchUsingPost(
+  body: API.ReviewRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/app/review/batch', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateApp POST /api/app/update */
 export async function updateAppUsingPost(
   body: API.AppUpdateRequest,
