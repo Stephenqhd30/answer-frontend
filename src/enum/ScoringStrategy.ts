@@ -9,8 +9,10 @@ export enum ScoringStrategy {
 export const scoringStrategyEnum = {
   [ScoringStrategy.CUSTOM]: {
     text: '自定义',
+    value: ScoringStrategy.CUSTOM,
   },
   [ScoringStrategy.AI]: {
     text: 'AI',
+    value: ScoringStrategy.AI,
   }
 };

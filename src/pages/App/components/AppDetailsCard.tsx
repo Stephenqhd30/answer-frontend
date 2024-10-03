@@ -3,9 +3,10 @@ import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
 import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
 import dayjs from 'dayjs';
-import { ProCard } from '@ant-design/pro-components';
-import React from 'react';
+import { ActionType, ProCard } from '@ant-design/pro-components';
+import React, { useRef, useState } from 'react';
 import { history } from '@@/core/history';
+import { EditAppModal } from '@/pages/App/components/index';
 
 interface Props {
   appData: API.AppVO;
@@ -14,7 +15,10 @@ interface Props {
 }
 
 const AppDetailsCard: React.FC<Props> = (props) => {
+  const actionRef = useRef<ActionType>();
   const { appData, isCreator, isCreate = true } = props;
+  // 更新组件
+  const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   return (
     <ProCard bordered={false}>
       <Typography.Title level={2}>{appData.appName}</Typography.Title>
@@ -47,10 +51,21 @@ const AppDetailsCard: React.FC<Props> = (props) => {
               设置评分
             </Button>
           )}
-          {isCreator && (
-            <Button onClick={() => history.push(`/add/app/${appData?.id}`)}>修改应用</Button>
-          )}
+          {isCreator && <Button onClick={() => setEditModalVisible(true)}>修改应用</Button>}
         </Flex>
+      )}
+      {editModalVisible && (
+        <EditAppModal
+          onSubmit={() => {
+            setEditModalVisible(false);
+            actionRef.current?.reload();
+          }}
+          visible={editModalVisible}
+          onCancel={() => {
+            setEditModalVisible(false);
+          }}
+          oldData={appData}
+        />
       )}
     </ProCard>
   );

@@ -11,8 +11,23 @@ export enum ReviewStatus {
  * 审核状态枚举
  */
 export const reviewStatusEnum = {
-  [ReviewStatus.REVIEWING]: { text: '待审核', color: 'warning' },
-  [ReviewStatus.PASS]: { text: '通过', color: 'success' },
-  [ReviewStatus.REJECT]: { text: '拒绝', color: 'error' },
+  [ReviewStatus.REVIEWING]: {
+    text: '待审核',
+    label: '待审核',
+    value: ReviewStatus.REVIEWING,
+    color: 'warning',
+  },
+  [ReviewStatus.PASS]: {
+    text: '通过',
+    label: '待审核',
+    value: ReviewStatus.PASS,
+    color: 'success',
+  },
+  [ReviewStatus.REJECT]: {
+    text: '拒绝',
+    label: '待审核',
+    value: ReviewStatus.REJECT,
+    color: 'error',
+  },
 };
 

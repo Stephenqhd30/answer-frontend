@@ -3,7 +3,7 @@ import { Col, Grid, Image, message, Row } from 'antd';
 import { getAppVoByIdUsingGet } from '@/services/stephen-backend/appController';
 import { useModel, useParams } from '@@/exports';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
-import { AppDetailsCard } from '@/pages/App/components';
+import {AppDetailsCard} from '@/pages/App/components';
 
 const { useBreakpoint } = Grid;
 const AppDetail: React.FC = () => {

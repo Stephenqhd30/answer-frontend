@@ -22,7 +22,7 @@ export default defineConfig({
   // },
   /**
    * @name 路由的配置，不在路由中引入的文件不会编译
-   * @description 只支持 path，components，routes，redirect，wrappers，title 的配置
+   * @description 只支持 path，ReApp，routes，redirect，wrappers，title 的配置
    * @doc https://umijs.org/docs/guides/routes
    */
   // umi routes: https://umijs.org/docs/routing

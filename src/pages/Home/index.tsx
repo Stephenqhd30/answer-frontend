@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import Search from 'antd/es/input/Search';
 import { PageContainer, ProList } from '@ant-design/pro-components';
 import { listAppVoByPageUsingPost } from '@/services/stephen-backend/appController';
-import { AppCard } from '@/pages/Home/components';
-import {Space} from 'antd';
-
-// 定义初始化搜索条件
-const initSearchParams: API.AppQueryRequest = {
-  current: 1,
-  pageSize: 10,
-};
+import {AppCard} from '@/components';
 
 const HomePage: React.FC = () => {
   // 加载搜索栏
@@ -40,9 +33,12 @@ const HomePage: React.FC = () => {
       <ProList<API.AppVO, API.PageParams>
         itemLayout="vertical"
         rowKey="id"
-        grid={{ gutter: 8, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 4 }}
+        grid={{ gutter: 24, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 4 }}
         headerTitle="应用列表"
-        pagination={initSearchParams}
+        pagination={{
+          pageSize: 12,
+          showQuickJumper: true,
+        }}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
@@ -60,11 +56,7 @@ const HomePage: React.FC = () => {
           };
         }}
         dataSource={dataList}
-        renderItem={(item) => (
-          <Space size={'large'} wrap>
-            <AppCard key={item.id} app={item} />
-          </Space>
-        )}
+        renderItem={(item) => <AppCard key={item.id} app={item} />}
       />
     </PageContainer>
   );
