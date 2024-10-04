@@ -19,11 +19,13 @@ const handleDelete = async (row: API.DeleteRequest) => {
   const hide = message.loading('正在删除');
   if (!row) return true;
   try {
-    await deleteUserUsingPost({
+    const res = await deleteUserUsingPost({
       id: row.id,
     });
-    hide();
-    message.success('删除成功');
+    if (res.code === 0 && res.data) {
+      hide();
+      message.success('删除成功');
+    }
   } catch (error: any) {
     hide();
     message.error(`删除失败${error.message}, 请重试!`);
@@ -106,15 +108,11 @@ const UserList: React.FC = () => {
             <Select.Option value={UserRole.ADMIN}>
               {userRoleEnum[UserRole.ADMIN].text}
             </Select.Option>
-            <Select.Option value={UserRole.USER}>
-              {userRoleEnum[UserRole.USER].text}
-            </Select.Option>
-            <Select.Option value={UserRole.BAN}>
-              {userRoleEnum[UserRole.BAN].text}
-            </Select.Option>
+            <Select.Option value={UserRole.USER}>{userRoleEnum[UserRole.USER].text}</Select.Option>
+            <Select.Option value={UserRole.BAN}>{userRoleEnum[UserRole.BAN].text}</Select.Option>
           </Select>
         );
-      }
+      },
     },
     {
       title: '创建时间',

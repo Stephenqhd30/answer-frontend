@@ -1,9 +1,8 @@
-import { Button, Flex, Typography } from 'antd';
-import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
-import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
+import { Button, Space } from 'antd';
+import { appTypeEnum } from '@/enum/AppTypeEnum';
+import { scoringStrategyEnum } from '@/enum/ScoringStrategy';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
-import dayjs from 'dayjs';
-import { ActionType, ProCard } from '@ant-design/pro-components';
+import { ActionType, ProCard, ProDescriptions } from '@ant-design/pro-components';
 import React, { useRef, useState } from 'react';
 import { history } from '@@/core/history';
 import { EditAppModal } from '@/pages/App/components/index';
@@ -11,36 +10,48 @@ import { EditAppModal } from '@/pages/App/components/index';
 interface Props {
   appData: API.AppVO;
   isCreator: boolean;
-  isCreate?: boolean;
 }
 
+/**
+ * 应用详情卡片
+ * @param props
+ * @constructor
+ */
 const AppDetailsCard: React.FC<Props> = (props) => {
+  const { appData, isCreator } = props;
   const actionRef = useRef<ActionType>();
-  const { appData, isCreator, isCreate = true } = props;
   // 更新组件
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
   return (
     <ProCard bordered={false}>
-      <Typography.Title level={2}>{appData.appName}</Typography.Title>
-      <Typography.Paragraph>{appData.appDesc}</Typography.Paragraph>
-      <Typography.Paragraph>
-        应用类型:{' '}
-        {appData?.appType !== undefined ? appTypeEnum[appData.appType as AppType]?.text : '未知'}
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        评分策略:{' '}
-        {appData?.scoringStrategy !== undefined
-          ? scoringStrategyEnum[appData.scoringStrategy as ScoringStrategy]?.text
-          : '未知'}
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        作者: <UserAvatarCard user={appData?.userVO || {}} />
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        创建时间: {dayjs(appData.createTime).format('YYYY-MM-DD HH:mm:ss')}
-      </Typography.Paragraph>
-      {isCreate && (
-        <Flex gap="small" wrap>
+      <ProDescriptions<API.AppVO>
+        actionRef={actionRef}
+        column={1}
+        title={appData.appName}
+        dataSource={appData}
+      >
+        <ProDescriptions.Item dataIndex="appDesc" label="应用描述" valueType="text" />
+        <ProDescriptions.Item
+          dataIndex="appType"
+          label="应用类型"
+          valueType="select"
+          valueEnum={appTypeEnum}
+        />
+        <ProDescriptions.Item
+          dataIndex="scoringStrategy"
+          label="评分策略"
+          valueType="select"
+          valueEnum={scoringStrategyEnum}
+        />
+        <ProDescriptions.Item
+          dataIndex="userVO"
+          label="作者"
+          render={() => {
+            return <UserAvatarCard user={appData?.userVO || {}} />;
+          }}
+        />
+        <ProDescriptions.Item dataIndex="createTime" label="创建时间" valueType="dateTime" />
+        <Space size="small" wrap>
           <Button type="primary">开始答题</Button>
           <Button>分享应用</Button>
           {isCreator && (
@@ -52,8 +63,9 @@ const AppDetailsCard: React.FC<Props> = (props) => {
             </Button>
           )}
           {isCreator && <Button onClick={() => setEditModalVisible(true)}>修改应用</Button>}
-        </Flex>
-      )}
+        </Space>
+      </ProDescriptions>
+
       {editModalVisible && (
         <EditAppModal
           onSubmit={() => {

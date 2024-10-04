@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import Search from 'antd/es/input/Search';
 import { PageContainer, ProList } from '@ant-design/pro-components';
 import { listAppVoByPageUsingPost } from '@/services/stephen-backend/appController';
-import {AppCard} from '@/components';
+import { AppCard } from '@/components';
+import { HOME_TITLE } from '@/constants';
 
+/**
+ * 首页
+ * @constructor
+ */
 const HomePage: React.FC = () => {
   // 加载搜索栏
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
@@ -16,11 +21,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <PageContainer
-      header={{
-        title: '',
-      }}
-    >
+    <PageContainer title={HOME_TITLE}>
       <Search
         style={{ maxWidth: 1200, margin: '0 auto 16px' }}
         placeholder="快速发现答题应用"

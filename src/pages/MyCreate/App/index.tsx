@@ -5,7 +5,7 @@ import { AppCard } from '@/components';
 
 
 /**
- * 主页
+ * 我创建的应用
  * @constructor
  */
 const MyCreateApp: React.FC = () => {

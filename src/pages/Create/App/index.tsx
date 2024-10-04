@@ -13,13 +13,12 @@ import { appTypeEnum } from '@/enum/AppTypeEnum';
 import { scoringStrategyEnum } from '@/enum/ScoringStrategy';
 
 const { useBreakpoint } = Grid;
-const { Step } = Steps;
 
 /**
- * 修改应用信息
+ *
  * @constructor
  */
-const AddApp: React.FC = () => {
+const CreateAppPage: React.FC = () => {
   const scene = useBreakpoint();
   const isMobile = !scene.sm;
   /**
@@ -109,4 +108,4 @@ const AddApp: React.FC = () => {
   );
 };
 
-export default AddApp;
+export default CreateAppPage;
