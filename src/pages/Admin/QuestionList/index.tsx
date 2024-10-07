@@ -67,6 +67,7 @@ const QuestionList: React.FC = () => {
       title: '题目列表',
       dataIndex: 'questionContent',
       valueType: 'textarea',
+      width: "40%",
     },
     {
       title: '创建时间',

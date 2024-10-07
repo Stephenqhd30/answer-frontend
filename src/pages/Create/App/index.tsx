@@ -14,6 +14,7 @@ import { appTypeEnum } from '@/enum/AppTypeEnum';
 import { scoringStrategyEnum } from '@/enum/ScoringStrategy';
 import { history } from '@umijs/max';
 import { uploadFileUsingPost } from '@/services/stephen-backend/fileController';
+import {CreateStepsCard} from '@/components';
 
 const { useBreakpoint } = Grid;
 
@@ -25,6 +26,15 @@ const CreateAppPage: React.FC = () => {
   const scene = useBreakpoint();
   const isMobile = !scene.sm;
   const [appIcon, setAppIcon] = useState<string>('');
+
+  const items = [
+    { title: '应用名称', description: '填写应用名称' },
+    { title: '应用描述', description: '填写应用描述' },
+    { title: '应用图标', description: '上传应用图标' },
+    { title: '应用类型', description: '填写应用类型' },
+    { title: '评分策略', description: '填写评分策略' },
+    { title: '完成创建', description: '您的应用准备就绪~' },
+  ]
   /**
    * 获取原始应用
    */
@@ -79,27 +89,9 @@ const CreateAppPage: React.FC = () => {
     },
   };
   return (
-    <PageContainer
-      header={{
-        title: '',
-        breadcrumb: {},
-      }}
-    >
+    <PageContainer>
       <ProCard split={isMobile ? 'horizontal' : 'vertical'} bordered>
-        <ProCard colSpan={isMobile ? 24 : 6}>
-          <Steps
-            direction={isMobile ? 'horizontal' : 'vertical'}
-            labelPlacement="vertical"
-            items={[
-              { title: '应用名称', description: '填写应用名称' },
-              { title: '应用描述', description: '填写应用描述' },
-              { title: '应用图标', description: '上传应用图标' },
-              { title: '应用类型', description: '填写应用类型' },
-              { title: '评分策略', description: '填写评分策略' },
-              { title: '完成创建', description: '您的应用准备就绪~' },
-            ]}
-          />
-        </ProCard>
+        <CreateStepsCard isMobile={isMobile} items={items} span={6}/>
         <ProCard
           colSpan={isMobile ? 24 : 18}
           title={'创建应用'}
