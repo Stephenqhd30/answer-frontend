@@ -25,20 +25,20 @@ const AddQuestionPage: React.FC = () => {
    */
   const questionOptionColumns: ProColumns<API.QuestionOption>[] = [
     {
-      title: "Key",
+      title: "正确选项",
       dataIndex: "key",
     },
     {
-      title: "Result",
+      title: "结果",
       dataIndex: "result",
     },
     {
-      title: "Score",
+      title: "得分",
       dataIndex: "score",
       valueType: 'digit',
     },
     {
-      title: "Value",
+      title: "选择结果",
       dataIndex: "value",
     },
   ];
@@ -48,7 +48,7 @@ const AddQuestionPage: React.FC = () => {
    */
   const questionContentColumns: ProColumns<API.QuestionContentDTO>[] = [
     {
-      title: 'Title',
+      title: '题目标题',
       dataIndex: 'title',
       formItemProps: {
         rules: [{ required: true, message: '请输入题目标题' }],
