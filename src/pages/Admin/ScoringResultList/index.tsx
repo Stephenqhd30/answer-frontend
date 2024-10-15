@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import {
   deleteScoringResultUsingPost,
   listScoringResultByPageUsingPost,
-} from '@/services/stephen-backend/scoringResultController';
+} from '@/services/answer-backend/scoringResultController';
 import {
   CreateScoringResultModal,
   UpdateScoringResultModal,

@@ -1,7 +1,7 @@
 import { message, Modal } from 'antd';
 import { ProColumns, ProTable } from '@ant-design/pro-components';
 import React from 'react';
-import { doAppReviewUsingPost } from '@/services/stephen-backend/appController';
+import { doAppReviewUsingPost } from '@/services/answer-backend/appController';
 
 interface ReviewModalProps {
   visible: boolean;

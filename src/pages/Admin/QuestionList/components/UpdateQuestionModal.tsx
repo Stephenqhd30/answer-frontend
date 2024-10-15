@@ -2,7 +2,7 @@ import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
-import { updateQuestionUsingPost } from '@/services/stephen-backend/questionController';
+import { updateQuestionUsingPost } from '@/services/answer-backend/questionController';
 
 interface UpdateProps {
   oldData?: API.Question;

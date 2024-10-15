@@ -1,6 +1,6 @@
 import { Avatar, message, UploadProps } from 'antd';
 import React, { useState } from 'react';
-import { updateMyUserUsingPost } from '@/services/stephen-backend/userController';
+import { updateMyUserUsingPost } from '@/services/answer-backend/userController';
 import {
   ProCard,
   ProForm,
@@ -8,7 +8,7 @@ import {
   ProFormTextArea, ProFormUploadButton
 } from '@ant-design/pro-components';
 import { AntDesignOutlined } from '@ant-design/icons';
-import { uploadFileUsingPost } from '@/services/stephen-backend/fileController';
+import { uploadFileUsingPost } from '@/services/answer-backend/fileController';
 
 interface BaseViewProps {
   user: API.User;

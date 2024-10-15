@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import {
   deleteAppUsingPost,
   listAppByPageUsingPost,
-} from '@/services/stephen-backend/appController';
+} from '@/services/answer-backend/appController';
 import { reviewStatusEnum } from '@/enum/ReviewStatusEnum';
 import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
 import { CreateAppModal, UpdateAppModal } from '@/pages/Admin/AppList/components';

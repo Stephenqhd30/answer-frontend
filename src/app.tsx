@@ -3,7 +3,7 @@ import { history, Link, RunTimeLayoutConfig } from '@umijs/max';
 import { requestConfig } from './requestConfig';
 import React from 'react';
 import Settings from '../config/defaultSettings';
-import { getLoginUserUsingGet } from '@/services/stephen-backend/userController';
+import { getLoginUserUsingGet } from '@/services/answer-backend/userController';
 import UnAccessiblePage from '@/pages/Exception/403';
 
 const loginPath = '/user/login';

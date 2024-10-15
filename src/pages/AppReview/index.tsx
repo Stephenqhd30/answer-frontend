@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Button, message, Space, Tag, Typography } from 'antd';
-import { getUserByIdUsingGet } from '@/services/stephen-backend/userController';
+import { getUserByIdUsingGet } from '@/services/answer-backend/userController';
 import { appTypeEnum } from '@/enum/AppTypeEnum';
 import { ReviewStatus, reviewStatusEnum } from '@/enum/ReviewStatusEnum';
-import { listAppByPageUsingPost } from '@/services/stephen-backend/appController';
+import { listAppByPageUsingPost } from '@/services/answer-backend/appController';
 import { scoringStrategyEnum } from '@/enum/ScoringStrategy';
 import { BatchReviewModal, ReviewModal, UserDetailsModal } from '@/pages/AppReview/components';
 

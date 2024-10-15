@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Grid, Image, message, Row, Typography } from 'antd';
-import { getAppVoByIdUsingGet } from '@/services/stephen-backend/appController';
+import { getAppVoByIdUsingGet } from '@/services/answer-backend/appController';
 import { useModel, useParams } from '@@/exports';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { AppDetailsCard } from '@/pages/App/components';

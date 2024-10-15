@@ -2,7 +2,7 @@ import { ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal, Select } from 'antd';
 import React from 'react';
-import { editAppUsingPost } from '@/services/stephen-backend/appController';
+import { editAppUsingPost } from '@/services/answer-backend/appController';
 import { AppType, appTypeEnum } from '@/enum/AppTypeEnum';
 import { ScoringStrategy, scoringStrategyEnum } from '@/enum/ScoringStrategy';
 

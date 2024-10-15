@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import {
   deleteUserAnswerUsingPost,
   listUserAnswerByPageUsingPost,
-} from '@/services/stephen-backend/userAnswerController';
+} from '@/services/answer-backend/userAnswerController';
 import {
   CreateUserAnswerModal,
   UpdateUserAnswerModal,

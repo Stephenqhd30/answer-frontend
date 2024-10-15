@@ -6,7 +6,7 @@ import React, { useRef, useState } from 'react';
 import {
   deleteQuestionUsingPost,
   listQuestionByPageUsingPost,
-} from '@/services/stephen-backend/questionController';
+} from '@/services/answer-backend/questionController';
 import { CreateQuestionModal, UpdateQuestionModal } from '@/pages/Admin/QuestionList/components';
 
 /**

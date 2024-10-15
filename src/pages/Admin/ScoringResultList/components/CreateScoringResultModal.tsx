@@ -2,7 +2,7 @@ import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import {Drawer, message, Modal} from 'antd';
 import React from 'react';
-import { addScoringResultUsingPost } from '@/services/stephen-backend/scoringResultController';
+import { addScoringResultUsingPost } from '@/services/answer-backend/scoringResultController';
 
 interface CreateProps {
   onCancel: () => void;

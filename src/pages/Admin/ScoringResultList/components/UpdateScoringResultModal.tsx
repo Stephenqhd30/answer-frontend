@@ -2,7 +2,7 @@ import { ProColumns, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { message, Modal } from 'antd';
 import React from 'react';
-import { updateScoringResultUsingPost } from '@/services/stephen-backend/scoringResultController';
+import { updateScoringResultUsingPost } from '@/services/answer-backend/scoringResultController';
 
 interface UpdateProps {
   oldData?: API.ScoringResult;
