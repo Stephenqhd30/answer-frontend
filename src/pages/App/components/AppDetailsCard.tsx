@@ -55,10 +55,10 @@ const AppDetailsCard: React.FC<Props> = (props) => {
           <Button type="primary">开始答题</Button>
           <Button>分享应用</Button>
           {isCreator && (
-            <Button onClick={() => history.push(`/add/question/${appData?.id}`)}>设置题目</Button>
+            <Button onClick={() => history.push(`/create/question/${appData?.id}`)}>设置题目</Button>
           )}
           {isCreator && (
-            <Button onClick={() => history.push(`/add/scoring_result/${appData?.id}`)}>
+            <Button onClick={() => history.push(`/create/scoring_result/${appData?.id}`)}>
               设置评分
             </Button>
           )}

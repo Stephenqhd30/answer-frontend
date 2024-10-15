@@ -1,21 +1,17 @@
-import { Avatar, message, UploadProps } from 'antd';
-import React, { useState } from 'react';
-import { updateMyUserUsingPost } from '@/services/answer-backend/userController';
-import {
-  ProCard,
-  ProForm,
-  ProFormText,
-  ProFormTextArea, ProFormUploadButton
-} from '@ant-design/pro-components';
-import { AntDesignOutlined } from '@ant-design/icons';
-import { uploadFileUsingPost } from '@/services/answer-backend/fileController';
+import {Avatar, message, Typography, UploadProps} from 'antd';
+import React, {useState} from 'react';
+import {updateMyUserUsingPost} from '@/services/answer-backend/userController';
+import {ProCard, ProForm, ProFormText, ProFormTextArea, ProFormUploadButton} from '@ant-design/pro-components';
+import {AntDesignOutlined} from '@ant-design/icons';
+import {uploadFileUsingPost} from '@/services/answer-backend/fileController';
 
 interface BaseViewProps {
   user: API.User;
+  isMobile: boolean;
 }
 
 const BaseView: React.FC<BaseViewProps> = (props) => {
-  const { user } = props;
+  const {user, isMobile} = props;
   const [userAvatar, setUserAvatar] = useState<string>();
   /**
    * 更新用户信息
@@ -71,40 +67,44 @@ const BaseView: React.FC<BaseViewProps> = (props) => {
   };
 
   return (
-    <ProCard title="更新个人基本信息" extra={new Date().toLocaleDateString()} headerBordered>
-      <ProCard>
-        <ProForm
-          layout="vertical"
-          onFinish={async (values) => {
-            await handleUpdate(values);
+    <ProCard
+      title={<Typography.Title level={5}>更新个人基本信息</Typography.Title>}
+      extra={isMobile ? '' : new Date().toLocaleDateString()}
+      headerBordered
+      bodyStyle={{padding: isMobile ? '4px' : '24px'}}
+      headStyle={{padding: isMobile ? '4px' : '24px'}}
+    >
+      <ProForm
+        layout="vertical"
+        onFinish={async (values) => {
+          await handleUpdate(values);
+        }}
+        submitter={{
+          searchConfig: {
+            submitText: '更新用户信'
+          },
+          render: (_, dom) => dom[1]
+        }}
+        initialValues={user}
+      >
+        <ProFormText name="userName" label="用户名"/>
+        <ProFormText name="userPhone" label="电话"/>
+        <ProFormText name="userEmail" label="邮箱"/>
+        <ProFormTextArea name="userProfile" label="简介"/>
+        <Avatar
+          size={{xs: 64, sm: 64, md: 64, lg: 64, xl: 100, xxl: 120}}
+          icon={<AntDesignOutlined/>}
+          src={user?.userAvatar}
+        />
+        <ProFormUploadButton
+          title={'上传头像'}
+          max={1}
+          fieldProps={{
+            ...updateProps
           }}
-          submitter={{
-            searchConfig: {
-              submitText: '更新用户信息',
-            },
-            render: (_, dom) => dom[1],
-          }}
-          initialValues={user}
-        >
-          <ProFormText name="userName" label="用户名" />
-          <ProFormText name="userPhone" label="电话" />
-          <ProFormText name="userEmail" label="邮箱" />
-          <ProFormTextArea name="userProfile" label="简介" />
-          <Avatar
-            size={{ xs: 64, sm: 64, md: 64, lg: 64, xl: 100, xxl: 120 }}
-            icon={<AntDesignOutlined />}
-            src={user?.userAvatar}
-          />
-          <ProFormUploadButton
-            title={'上传头像'}
-            max={1}
-            fieldProps={{
-              ...updateProps,
-            }}
-            name="pic"
-          />
-        </ProForm>
-      </ProCard>
+          name="pic"
+        />
+      </ProForm>
     </ProCard>
   );
 };

@@ -3,11 +3,17 @@ import React from 'react';
 import { ProCard, ProDescriptions } from '@ant-design/pro-components';
 import { Typography } from 'antd';
 import UserAvatarCard from '@/components/ReUser/UserAvatarCard';
+import {userRoleEnum} from '@/enum/UserRole';
 
 interface UserProps {
   user: API.User;
 }
 
+/**
+ * 用户详细卡片
+ * @param props
+ * @constructor
+ */
 const UserDetailsCard: React.FC<UserProps> = (props) => {
   const { user } = props;
 
@@ -33,15 +39,7 @@ const UserDetailsCard: React.FC<UserProps> = (props) => {
               title: '角色',
               key: 'userRole',
               dataIndex: 'userRole',
-              valueType: 'text',
-              valueEnum: {
-                admin: {
-                  text: '管理员',
-                },
-                user: {
-                  text: '普通用户',
-                },
-              },
+              valueEnum: userRoleEnum,
             },
             {
               title: '用户名',

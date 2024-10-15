@@ -1,111 +1,49 @@
 import {
-  EditableProTable,
   PageContainer,
   ProCard,
-  ProColumns,
   ProForm,
+  ProFormList,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Grid, message } from 'antd';
+import { Grid, message, Typography } from 'antd';
 import React, { useState } from 'react';
 import { addQuestionUsingPost } from '@/services/answer-backend/questionController';
 import { CreateStepsCard } from '@/components';
 
 const { useBreakpoint } = Grid;
 
-const AddQuestionPage: React.FC = () => {
+/**
+ * 添加题目页
+ * @constructor
+ */
+const CreateQuestionPage: React.FC = () => {
   const scene = useBreakpoint();
   const isMobile = !scene.md;
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
-  const [questionContentEditableKeys, setQuestionContentEditableKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const items = [
-    { title: '应用名称', description: '填写应用名称' },
-    { title: '应用描述', description: '填写应用描述' },
-    { title: '应用图标', description: '上传应用图标' },
-    { title: '应用类型', description: '填写应用类型' },
-    { title: '评分策略', description: '填写评分策略' },
-    { title: '完成创建', description: '您的应用准备就绪~' },
-  ]
-
-  // 定义表格列结构：QuestionOption
-  const questionOptionColumns: ProColumns<API.QuestionOption>[] = [
-    {
-      title: '正确选项',
-      dataIndex: 'key',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入正确选项' }],
-      },
-    },
-    {
-      title: '结果',
-      dataIndex: 'result',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入结果' }],
-      },
-    },
-    {
-      title: '得分',
-      dataIndex: 'score',
-      valueType: 'digit',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入得分' }],
-      },
-    },
-    {
-      title: '选择结果',
-      dataIndex: 'value',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入选择结果' }],
-      },
-    },
+    { title: '应用id', description: '确认应用id' },
+    { title: '题目列表', description: '添加题目列表' },
+    { title: '题目选项', description: '设置题目选项' },
+    { title: '完成创建', description: '您的题目准备就绪~' },
   ];
-
-  // 定义表格列结构：QuestionContentDTO
-  const questionContentColumns: ProColumns<API.QuestionContentDTO>[] = [
-    {
-      title: '题目标题',
-      dataIndex: 'title',
-      formItemProps: {
-        rules: [{ required: true, message: '请输入题目标题' }],
-      },
-    },
-    {
-      title: '题目选项',
-      dataIndex: 'questionOptionList',
-      renderFormItem: (_, { record }) => (
-        <EditableProTable<API.QuestionOption>
-          rowKey="key"
-          toolBarRender={false}
-          columns={questionOptionColumns}
-          value={record?.questionOptionList}
-          editable={{
-            type: 'multiple',
-            editableKeys,
-            onChange: setEditableRowKeys,
-          }}
-        />
-      ),
-    },
-  ];
-
 
   return (
     <PageContainer>
       <ProCard split={isMobile ? 'horizontal' : 'vertical'} bordered>
         <CreateStepsCard isMobile={isMobile} span={6} items={items} />
         <ProCard
+          gutter={[16, 16]}
           colSpan={isMobile ? 24 : 18}
-          title={'创建问题'}
-          extra={new Date().toLocaleDateString()}
+          title={<Typography.Title level={3}>创建题目</Typography.Title>}
+          extra={isMobile ? '' : new Date().toLocaleDateString()}
         >
           <ProForm<API.QuestionAddRequest>
-            grid
             submitter={{
               submitButtonProps: {
                 loading: loading,
               },
             }}
+            layout={'horizontal'}
             onFinish={async (values) => {
               setLoading(true);
               try {
@@ -122,27 +60,33 @@ const AddQuestionPage: React.FC = () => {
               }
             }}
           >
-            <ProFormText name="appId" label="应用ID" placeholder="请输入应用ID" />
-            <ProForm.Item label="问题列表" name="questionContent" trigger="onValuesChange">
-              <EditableProTable<API.QuestionContentDTO>
-                rowKey="title"
-                toolBarRender={false}
-                columns={questionContentColumns}
-                recordCreatorProps={{
-                  newRecordType: 'dataSource',
-                  position: 'top',
-                  record: () => ({
-                    title: '新问题',
-                    questionOptionList: [],
-                  }),
-                }}
-                editable={{
-                  type: 'multiple',
-                  editableKeys: questionContentEditableKeys,
-                  onChange: setQuestionContentEditableKeys,
-                }}
-              />
-            </ProForm.Item>
+            <ProFormText name="appId" label="应用id" placeholder="请选择您的应用" />
+            {/* 题目列表 */}
+            <ProFormList
+              name="questionContent"
+              label="问题列表"
+              creatorButtonProps={{ position: 'bottom' }}
+              itemRender={({ listDom, action }, { index }) => (
+                <ProCard
+                  bordered
+                  title={`题目 ${index + 1}`}
+                  extra={action}
+                  collapsible
+                >
+                  {listDom}
+                </ProCard>
+              )}
+            >
+              {/* 题目标题 */}
+              <ProFormText name="title" label="题目标题" />
+              {/* 题目选项 */}
+              <ProFormList max={1} name="questionOptionList" label="题目选项">
+                <ProFormText name="key" label="选项Key" />
+                <ProFormText name="result" label="选项结果" />
+                <ProFormText name="score" label="选项得分" />
+                <ProFormText name="value" label="选项值" />
+              </ProFormList>
+            </ProFormList>
           </ProForm>
         </ProCard>
       </ProCard>
@@ -150,4 +94,4 @@ const AddQuestionPage: React.FC = () => {
   );
 };
 
-export default AddQuestionPage;
+export default CreateQuestionPage;

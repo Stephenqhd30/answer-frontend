@@ -7,6 +7,11 @@ interface UserProps {
   user: API.User;
 }
 
+/**
+ * 用户信息卡片
+ * @param props
+ * @constructor
+ */
 const UserInfoCard: React.FC<UserProps> = (props) => {
   const { user } = props;
 

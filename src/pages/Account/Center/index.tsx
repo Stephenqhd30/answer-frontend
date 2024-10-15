@@ -5,6 +5,10 @@ import { Col, Row } from 'antd';
 import { useModel } from '@@/exports';
 import { UserCard, UserDetailsCard } from '@/pages/Account/Center/components';
 
+/**
+ * 个人中心
+ * @constructor
+ */
 const UserCenter: React.FC = () => {
   const { initialState } = useModel('@@initialState');
   const currentUser = initialState?.currentUser;

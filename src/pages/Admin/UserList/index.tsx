@@ -1,12 +1,11 @@
 import {PlusOutlined} from '@ant-design/icons';
 import {ActionType, ProColumns, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, message, Popconfirm, Select, Space, Tag, Typography, UploadProps} from 'antd';
+import { Button, message, Popconfirm, Select, Space, Tag, Typography } from 'antd';
 import React, {useRef, useState} from 'react';
 import {deleteUserUsingPost, listUserByPageUsingPost} from '@/services/answer-backend/userController';
 import {UserRole, userRoleEnum} from '@/enum/UserRole';
 import {CreateUserModal, UpdateUserModal} from '@/pages/Admin/UserList/components';
-import {uploadFileUsingPost} from '@/services/answer-backend/fileController';
 
 /**
  * 删除节点
@@ -41,8 +40,6 @@ const UserList: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   // 更新窗口的Modal框
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  // 更新之后的用户头像地址
-  const [userAvatar, setUserAvatar] = useState<string>("");
   const actionRef = useRef<ActionType>();
   // 当前用户的所点击的数据
   const [currentRow, setCurrentRow] = useState<API.User>();
