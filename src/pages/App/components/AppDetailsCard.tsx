@@ -68,7 +68,7 @@ const AppDetailsCard: React.FC<Props> = (props) => {
 
       {editModalVisible && (
         <EditAppModal
-          onSubmit={() => {
+          onSubmit={async () => {
             setEditModalVisible(false);
             actionRef.current?.reload();
           }}

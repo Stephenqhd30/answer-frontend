@@ -59,7 +59,7 @@ const CreateAppPage: React.FC = () => {
   };
 
   /**
-   * 用户更新头像
+   * 更新应用封面
    */
   const uploadProps: UploadProps = {
     name: 'file',

@@ -24,7 +24,7 @@ const AppCard: React.FC<AppCardProps> = (props) => {
   return (
     <ProCard
       bordered
-      onClick={() => {
+      onClick={async () => {
         history.push(`/app/detail/${app.id}`);
       }}
       title={app.appName}
